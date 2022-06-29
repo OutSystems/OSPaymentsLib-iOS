@@ -10,6 +10,16 @@
 		7507FC1B27FC2AAE003809F6 /* OSPaymentsLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7507FC1227FC2AAE003809F6 /* OSPaymentsLib.framework */; };
 		7507FC2027FC2AAE003809F6 /* OSPaymentsLibTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7507FC1F27FC2AAE003809F6 /* OSPaymentsLibTests.swift */; };
 		7507FC2127FC2AAE003809F6 /* OSPaymentsLib.h in Headers */ = {isa = PBXBuildFile; fileRef = 7507FC1527FC2AAE003809F6 /* OSPaymentsLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		750B7CA2286AF62B001E306E /* ApplePayHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B7CA1286AF62B001E306E /* ApplePayHandler.swift */; };
+		750B7CA7286B12DE001E306E /* PaymentsHandlerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B7CA6286B12DE001E306E /* PaymentsHandlerProtocol.swift */; };
+		750B7CAA286B25D5001E306E /* PaymentsTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B7CA9286B25D5001E306E /* PaymentsTotal.swift */; };
+		750B7CAC286B25E2001E306E /* PaymentsMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B7CAB286B25E2001E306E /* PaymentsMerchant.swift */; };
+		750B7CAE286B25EF001E306E /* PaymentsBilling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B7CAD286B25EF001E306E /* PaymentsBilling.swift */; };
+		750B7CB0286B25F9001E306E /* PaymentsShipping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B7CAF286B25F9001E306E /* PaymentsShipping.swift */; };
+		757706EE286A098100BAF64C /* PaymentsCallbackProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757706ED286A098100BAF64C /* PaymentsCallbackProtocol.swift */; };
+		757706F1286A0A5B00BAF64C /* PaymentsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757706F0286A0A5B00BAF64C /* PaymentsError.swift */; };
+		757706F3286A0B7000BAF64C /* PaymentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757706F2286A0B7000BAF64C /* PaymentsController.swift */; };
+		75B97707286B46AE0026CE7E /* ApplePayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B97706286B46AE0026CE7E /* ApplePayExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +37,16 @@
 		7507FC1527FC2AAE003809F6 /* OSPaymentsLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSPaymentsLib.h; sourceTree = "<group>"; };
 		7507FC1A27FC2AAE003809F6 /* OSPaymentsLibTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OSPaymentsLibTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7507FC1F27FC2AAE003809F6 /* OSPaymentsLibTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPaymentsLibTests.swift; sourceTree = "<group>"; };
+		750B7CA1286AF62B001E306E /* ApplePayHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePayHandler.swift; sourceTree = "<group>"; };
+		750B7CA6286B12DE001E306E /* PaymentsHandlerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsHandlerProtocol.swift; sourceTree = "<group>"; };
+		750B7CA9286B25D5001E306E /* PaymentsTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsTotal.swift; sourceTree = "<group>"; };
+		750B7CAB286B25E2001E306E /* PaymentsMerchant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsMerchant.swift; sourceTree = "<group>"; };
+		750B7CAD286B25EF001E306E /* PaymentsBilling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsBilling.swift; sourceTree = "<group>"; };
+		750B7CAF286B25F9001E306E /* PaymentsShipping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsShipping.swift; sourceTree = "<group>"; };
+		757706ED286A098100BAF64C /* PaymentsCallbackProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCallbackProtocol.swift; sourceTree = "<group>"; };
+		757706F0286A0A5B00BAF64C /* PaymentsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsError.swift; sourceTree = "<group>"; };
+		757706F2286A0B7000BAF64C /* PaymentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsController.swift; sourceTree = "<group>"; };
+		75B97706286B46AE0026CE7E /* ApplePayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePayExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +89,13 @@
 		7507FC1427FC2AAE003809F6 /* OSPaymentsLib */ = {
 			isa = PBXGroup;
 			children = (
+				750B7CA8286B25C4001E306E /* Models */,
+				750B7CA3286B10B3001E306E /* Extensions */,
+				757706EC286A096300BAF64C /* Protocols */,
+				757706EB286A095E00BAF64C /* Utils */,
 				7507FC1527FC2AAE003809F6 /* OSPaymentsLib.h */,
+				757706F2286A0B7000BAF64C /* PaymentsController.swift */,
+				750B7CA1286AF62B001E306E /* ApplePayHandler.swift */,
 			);
 			path = OSPaymentsLib;
 			sourceTree = "<group>";
@@ -80,6 +106,42 @@
 				7507FC1F27FC2AAE003809F6 /* OSPaymentsLibTests.swift */,
 			);
 			path = OSPaymentsLibTests;
+			sourceTree = "<group>";
+		};
+		750B7CA3286B10B3001E306E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				75B97706286B46AE0026CE7E /* ApplePayExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		750B7CA8286B25C4001E306E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				750B7CA9286B25D5001E306E /* PaymentsTotal.swift */,
+				750B7CAB286B25E2001E306E /* PaymentsMerchant.swift */,
+				750B7CAD286B25EF001E306E /* PaymentsBilling.swift */,
+				750B7CAF286B25F9001E306E /* PaymentsShipping.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		757706EB286A095E00BAF64C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				757706F0286A0A5B00BAF64C /* PaymentsError.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		757706EC286A096300BAF64C /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				757706ED286A098100BAF64C /* PaymentsCallbackProtocol.swift */,
+				750B7CA6286B12DE001E306E /* PaymentsHandlerProtocol.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -104,6 +166,7 @@
 				7507FC0E27FC2AAE003809F6 /* Sources */,
 				7507FC0F27FC2AAE003809F6 /* Frameworks */,
 				7507FC1027FC2AAE003809F6 /* Resources */,
+				757706EF286A098A00BAF64C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -144,6 +207,7 @@
 				TargetAttributes = {
 					7507FC1127FC2AAE003809F6 = {
 						CreatedOnToolsVersion = 13.3;
+						LastSwiftMigration = 1340;
 					};
 					7507FC1927FC2AAE003809F6 = {
 						CreatedOnToolsVersion = 13.3;
@@ -186,11 +250,41 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		757706EF286A098A00BAF64C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: Swiftlint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7507FC0E27FC2AAE003809F6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75B97707286B46AE0026CE7E /* ApplePayExtensions.swift in Sources */,
+				757706EE286A098100BAF64C /* PaymentsCallbackProtocol.swift in Sources */,
+				750B7CAC286B25E2001E306E /* PaymentsMerchant.swift in Sources */,
+				757706F3286A0B7000BAF64C /* PaymentsController.swift in Sources */,
+				750B7CB0286B25F9001E306E /* PaymentsShipping.swift in Sources */,
+				750B7CAA286B25D5001E306E /* PaymentsTotal.swift in Sources */,
+				750B7CA7286B12DE001E306E /* PaymentsHandlerProtocol.swift in Sources */,
+				757706F1286A0A5B00BAF64C /* PaymentsError.swift in Sources */,
+				750B7CAE286B25EF001E306E /* PaymentsBilling.swift in Sources */,
+				750B7CA2286AF62B001E306E /* ApplePayHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +431,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -358,6 +453,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -367,6 +463,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -396,6 +493,7 @@
 		7507FC2827FC2AAE003809F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = EVSWK8BA55;
@@ -412,6 +510,7 @@
 		7507FC2927FC2AAE003809F6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = EVSWK8BA55;
