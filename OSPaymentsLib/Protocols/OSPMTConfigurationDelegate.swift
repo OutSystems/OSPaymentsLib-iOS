@@ -97,7 +97,8 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationDelegate {
               let merchantCountryCode = self.merchantCountryCode,
               let paymentAllowedNetworks = self.paymentAllowedNetworks,
               let paymentSupportedCapabilities = self.paymentSupportedCapabilities,
-              let paymentSupportedCardCountries = self.paymentSupportedCardCountries
+              let shippingSupportedContacts = self.shippingSupportedContacts,
+              let billingSupportedContacts = self.billingSupportedContacts
         else { return "" }
 
         var configurationDict: [String: Any] = [
@@ -107,15 +108,14 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationDelegate {
             
             ConfigurationKeys.paymentAllowedNetworks: paymentAllowedNetworks,
             ConfigurationKeys.paymentSupportedCapabilities: paymentSupportedCapabilities,
-            ConfigurationKeys.paymentSupportedCardCountries: paymentSupportedCardCountries
+            
+            ConfigurationKeys.shippingSupportedContacts: shippingSupportedContacts,
+            
+            ConfigurationKeys.billingSupportedContacts: billingSupportedContacts
         ]
         
-        if let shippingSupportedContacts = shippingSupportedContacts {
-            configurationDict[ConfigurationKeys.shippingSupportedContacts] = shippingSupportedContacts
-        }
-        
-        if let billingSupportedContacts = self.billingSupportedContacts {
-            configurationDict[ConfigurationKeys.billingSupportedContacts] = billingSupportedContacts
+        if let paymentSupportedCardCountries = self.paymentSupportedCardCountries {
+            configurationDict[ConfigurationKeys.paymentSupportedCardCountries] = paymentSupportedCardCountries
         }
         
         guard let data = try? JSONSerialization.data(withJSONObject: configurationDict), let result = String(data: data, encoding: .utf8)
@@ -144,5 +144,10 @@ extension OSPMTApplePayConfiguration {
         }
         
         return !result.isEmpty ? result : nil
+    }
+    
+    var supportedCountries: Set<String>? {
+        guard let paymentSupportedCardCountries = self.paymentSupportedCardCountries else { return nil }
+        return !paymentSupportedCardCountries.isEmpty ? Set(paymentSupportedCardCountries) : nil
     }
 }
