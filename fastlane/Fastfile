@@ -26,6 +26,7 @@ platform :ios do
   lane :coverage do
     slather(
       scheme: "OSPaymentsLib",
+      workspace: "OSPaymentsLib.xcworkspace",
       proj: "OSPaymentsLib.xcodeproj",
       output_directory: "sonar-reports", 
       sonarqube_xml: "true"
