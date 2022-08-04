@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		7507FC1B27FC2AAE003809F6 /* OSPaymentsLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7507FC1227FC2AAE003809F6 /* OSPaymentsLib.framework */; };
 		7507FC2127FC2AAE003809F6 /* OSPaymentsLib.h in Headers */ = {isa = PBXBuildFile; fileRef = 7507FC1527FC2AAE003809F6 /* OSPaymentsLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7509DC7728993C4C005BA0D4 /* PKMerchantCapability+Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7509DC7628993C4C005BA0D4 /* PKMerchantCapability+Adapter.swift */; };
+		7509DC7D28995A07005BA0D4 /* OSPMTAvailabilityDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7509DC7C28995A07005BA0D4 /* OSPMTAvailabilityDelegate.swift */; };
+		7509DC7F28996482005BA0D4 /* OSPMTApplePayConfigurationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7509DC7E28996482005BA0D4 /* OSPMTApplePayConfigurationSpec.swift */; };
+		7509DC81289967A6005BA0D4 /* PKPaymentNetwork+Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7509DC80289967A6005BA0D4 /* PKPaymentNetwork+Adapter.swift */; };
+		755A804B289BB96900426EAA /* PKPassLibrary+OSPMTWalletAvailabilityDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755A804A289BB96900426EAA /* PKPassLibrary+OSPMTWalletAvailabilityDelegate.swift */; };
+		755A804D289BBAB300426EAA /* PKPaymentAuthorizationController+OSPMTSetupAvailabilityDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755A804C289BBAB300426EAA /* PKPaymentAuthorizationController+OSPMTSetupAvailabilityDelegate.swift */; };
+		755A8050289BBDF000426EAA /* OSPMTApplePayAvailabilityBehaviourSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755A804F289BBDF000426EAA /* OSPMTApplePayAvailabilityBehaviourSpec.swift */; };
 		75E4DCB12897C8AD002277FD /* OSPMTPaymentsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E4DCB02897C8AD002277FD /* OSPMTPaymentsSpec.swift */; };
 		75EC4D122893FC3C00CF50E2 /* OSPMTPayments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EC4D112893FC3C00CF50E2 /* OSPMTPayments.swift */; };
 		75EC4D152894143A00CF50E2 /* OSPMTCallbackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EC4D142894143A00CF50E2 /* OSPMTCallbackDelegate.swift */; };
@@ -40,6 +47,13 @@
 		7507FC1227FC2AAE003809F6 /* OSPaymentsLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OSPaymentsLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7507FC1527FC2AAE003809F6 /* OSPaymentsLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSPaymentsLib.h; sourceTree = "<group>"; };
 		7507FC1A27FC2AAE003809F6 /* OSPaymentsLibTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OSPaymentsLibTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7509DC7628993C4C005BA0D4 /* PKMerchantCapability+Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKMerchantCapability+Adapter.swift"; sourceTree = "<group>"; };
+		7509DC7C28995A07005BA0D4 /* OSPMTAvailabilityDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTAvailabilityDelegate.swift; sourceTree = "<group>"; };
+		7509DC7E28996482005BA0D4 /* OSPMTApplePayConfigurationSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTApplePayConfigurationSpec.swift; sourceTree = "<group>"; };
+		7509DC80289967A6005BA0D4 /* PKPaymentNetwork+Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKPaymentNetwork+Adapter.swift"; sourceTree = "<group>"; };
+		755A804A289BB96900426EAA /* PKPassLibrary+OSPMTWalletAvailabilityDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKPassLibrary+OSPMTWalletAvailabilityDelegate.swift"; sourceTree = "<group>"; };
+		755A804C289BBAB300426EAA /* PKPaymentAuthorizationController+OSPMTSetupAvailabilityDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKPaymentAuthorizationController+OSPMTSetupAvailabilityDelegate.swift"; sourceTree = "<group>"; };
+		755A804F289BBDF000426EAA /* OSPMTApplePayAvailabilityBehaviourSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTApplePayAvailabilityBehaviourSpec.swift; sourceTree = "<group>"; };
 		75E4DCB02897C8AD002277FD /* OSPMTPaymentsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTPaymentsSpec.swift; sourceTree = "<group>"; };
 		75EC4D112893FC3C00CF50E2 /* OSPMTPayments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTPayments.swift; sourceTree = "<group>"; };
 		75EC4D142894143A00CF50E2 /* OSPMTCallbackDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTCallbackDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +124,7 @@
 		7507FC1427FC2AAE003809F6 /* OSPaymentsLib */ = {
 			isa = PBXGroup;
 			children = (
+				7509DC7528993C26005BA0D4 /* Extensions */,
 				75EC4D182894155D00CF50E2 /* Error */,
 				75EC4D132894142000CF50E2 /* Protocols */,
 				7507FC1527FC2AAE003809F6 /* OSPaymentsLib.h */,
@@ -122,11 +137,24 @@
 		7507FC1E27FC2AAE003809F6 /* OSPaymentsLibTests */ = {
 			isa = PBXGroup;
 			children = (
+				755A804F289BBDF000426EAA /* OSPMTApplePayAvailabilityBehaviourSpec.swift */,
+				7509DC7E28996482005BA0D4 /* OSPMTApplePayConfigurationSpec.swift */,
 				75EC4D232894449700CF50E2 /* OSPMTApplePayHandlerSpec.swift */,
 				75E4DCB02897C8AD002277FD /* OSPMTPaymentsSpec.swift */,
 				75EC4D252894478200CF50E2 /* OSPMTTestConfigurations.swift */,
 			);
 			path = OSPaymentsLibTests;
+			sourceTree = "<group>";
+		};
+		7509DC7528993C26005BA0D4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7509DC7628993C4C005BA0D4 /* PKMerchantCapability+Adapter.swift */,
+				755A804A289BB96900426EAA /* PKPassLibrary+OSPMTWalletAvailabilityDelegate.swift */,
+				755A804C289BBAB300426EAA /* PKPaymentAuthorizationController+OSPMTSetupAvailabilityDelegate.swift */,
+				7509DC80289967A6005BA0D4 /* PKPaymentNetwork+Adapter.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		75EC4D132894142000CF50E2 /* Protocols */ = {
@@ -136,6 +164,7 @@
 				75EC4D142894143A00CF50E2 /* OSPMTCallbackDelegate.swift */,
 				75EC4D162894150F00CF50E2 /* OSPMTHandlerDelegate.swift */,
 				75EC4D2128942C3800CF50E2 /* OSPMTConfigurationDelegate.swift */,
+				7509DC7C28995A07005BA0D4 /* OSPMTAvailabilityDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -180,6 +209,7 @@
 				7507FC0E27FC2AAE003809F6 /* Sources */,
 				7507FC0F27FC2AAE003809F6 /* Frameworks */,
 				7507FC1027FC2AAE003809F6 /* Resources */,
+				75895022289989D200670171 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -305,6 +335,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		75895022289989D200670171 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: Swiftlint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		8B8B158E2E1E8736A3AE4BF3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -334,10 +381,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7509DC7D28995A07005BA0D4 /* OSPMTAvailabilityDelegate.swift in Sources */,
 				75EC4D1A2894156E00CF50E2 /* OSPMTError.swift in Sources */,
+				7509DC7728993C4C005BA0D4 /* PKMerchantCapability+Adapter.swift in Sources */,
+				755A804B289BB96900426EAA /* PKPassLibrary+OSPMTWalletAvailabilityDelegate.swift in Sources */,
 				75EC4D2228942C3800CF50E2 /* OSPMTConfigurationDelegate.swift in Sources */,
 				75EC4D172894150F00CF50E2 /* OSPMTHandlerDelegate.swift in Sources */,
+				755A804D289BBAB300426EAA /* PKPaymentAuthorizationController+OSPMTSetupAvailabilityDelegate.swift in Sources */,
 				75EC4D1E289416B600CF50E2 /* OSPMTApplePayHandler.swift in Sources */,
+				7509DC81289967A6005BA0D4 /* PKPaymentNetwork+Adapter.swift in Sources */,
 				75EC4D152894143A00CF50E2 /* OSPMTCallbackDelegate.swift in Sources */,
 				75EC4D1C2894160400CF50E2 /* OSPMTActionDelegate.swift in Sources */,
 				75EC4D122893FC3C00CF50E2 /* OSPMTPayments.swift in Sources */,
@@ -349,6 +401,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				75EC4D262894478200CF50E2 /* OSPMTTestConfigurations.swift in Sources */,
+				755A8050289BBDF000426EAA /* OSPMTApplePayAvailabilityBehaviourSpec.swift in Sources */,
+				7509DC7F28996482005BA0D4 /* OSPMTApplePayConfigurationSpec.swift in Sources */,
 				75EC4D242894449700CF50E2 /* OSPMTApplePayHandlerSpec.swift in Sources */,
 				75E4DCB12897C8AD002277FD /* OSPMTPaymentsSpec.swift in Sources */,
 			);
