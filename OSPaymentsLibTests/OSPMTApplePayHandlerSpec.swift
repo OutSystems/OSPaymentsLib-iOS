@@ -2,17 +2,42 @@ import Nimble
 import Quick
 @testable import OSPaymentsLib
 
+class OSPMTMockAvailabilityBehaviour: OSPMTAvailabilityDelegate {
+    var error: OSPMTError?
+    
+    init(error: OSPMTError? = nil) {
+        self.error = error
+    }
+    
+    private func checkIfEqual(to error: OSPMTError) -> OSPMTError? {
+        self.error == error ? error : nil
+    }
+    
+    func checkWallet() -> OSPMTError? {
+        self.checkIfEqual(to: .walletNotAvailable)
+    }
+    
+    func checkPayment() -> OSPMTError? {
+        self.checkIfEqual(to: .paymentNotAvailable)
+    }
+    
+    func checkPaymentSetup() -> OSPMTError? {
+        self.checkIfEqual(to: .setupPaymentNotAvailable)
+    }
+}
+
 class OSPMTApplePayHandlerSpec: QuickSpec {
     override func spec() {
         var applePayHandler: OSPMTApplePayHandler!
+        var mockAvailabilityBehaviour: OSPMTMockAvailabilityBehaviour!
         
         describe("Given a configuration") {
+            beforeEach {
+                applePayHandler = OSPMTApplePayHandler(configurationSource: OSPMTTestConfigurations.fullConfig)
+            }
+            
             context("When Apple Pay Handler is initialized") {
-                beforeEach {
-                    applePayHandler = OSPMTApplePayHandler(configurationSource: OSPMTTestConfigurations.fullConfig)
-                }
-                
-                it("create the configuration property correctly") {
+                it("should create the configuration property correctly") {
                     expect(applePayHandler).toNot(beNil())
                 }
                 
@@ -183,5 +208,64 @@ class OSPMTApplePayHandlerSpec: QuickSpec {
                 }
             }
         }
+        
+        describe("Given an AvailabilityBehaviour") {
+            var applePayConfiguration: OSPMTApplePayConfiguration!
+            
+            beforeEach {
+                applePayConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.fullConfig)
+            }
+            context("When Wallet is not available for usage") {
+                beforeEach {
+                    mockAvailabilityBehaviour = OSPMTMockAvailabilityBehaviour(error: .walletNotAvailable)
+                    applePayHandler = OSPMTApplePayHandler(configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour)
+                }
+                
+                it("should return the walletNotAvailable error") {
+                    let error = applePayHandler.checkWalletAvailability()
+                    
+                    expect(error).to(equal(.walletNotAvailable))
+                }
+            }
+            
+            context("When Payment is not available for usage") {
+                beforeEach {
+                    mockAvailabilityBehaviour = OSPMTMockAvailabilityBehaviour(error: .paymentNotAvailable)
+                    applePayHandler = OSPMTApplePayHandler(configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour)
+                }
+                
+                it("should return the paymentNotAvailable error") {
+                    let error = applePayHandler.checkWalletAvailability()
+                    
+                    expect(error).to(equal(.paymentNotAvailable))
+                }
+            }
+            
+            context("When Payment is not available for usage") {
+                beforeEach {
+                    mockAvailabilityBehaviour = OSPMTMockAvailabilityBehaviour(error: .setupPaymentNotAvailable)
+                    applePayHandler = OSPMTApplePayHandler(configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour)
+                }
+                
+                it("should return the setupPaymentNotAvailable error") {
+                    let error = applePayHandler.checkWalletAvailability()
+                    
+                    expect(error).to(equal(.setupPaymentNotAvailable))
+                }
+            }
+            
+            context("When everything is available for usage") {
+                beforeEach {
+                    mockAvailabilityBehaviour = OSPMTMockAvailabilityBehaviour()
+                    applePayHandler = OSPMTApplePayHandler(configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour)
+                }
+                
+                it("should return a nil error") {
+                    let error = applePayHandler.checkWalletAvailability()
+                    
+                    expect(error).to(beNil())
+                }
+            }
+        }       
     }
 }
