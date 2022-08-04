@@ -12,9 +12,14 @@ class OSPMTMockCallback: OSPMTCallbackDelegate {
     }
 }
 
-struct OSPMTMockHandler: OSPMTHandlerDelegate {
+class OSPMTMockHandler: OSPMTHandlerDelegate {
     var successText: String?
     var error: OSPMTError?
+    
+    init(successText: String? = nil, error: OSPMTError? = nil) {
+        self.successText = successText
+        self.error = error
+    }
     
     func setupConfiguration() -> Result<String, OSPMTError> {
         if let error = self.error {
@@ -22,6 +27,10 @@ struct OSPMTMockHandler: OSPMTHandlerDelegate {
         } else {
             return .success(self.successText ?? "")
         }
+    }
+    
+    func checkWalletAvailability() -> OSPMTError? {
+        return self.error
     }
 }
 
@@ -49,20 +58,34 @@ class OSPMTPaymentsSpec: QuickSpec {
                         expect(mockDelegate.successText).to(equal(OSPMTTestConfigurations.dummyString))
                         expect(mockDelegate.error).to(beNil())
                     }
+                    
+                    it("Check wallet setup should return a successful empty message") {
+                        payments.checkWalletSetup()
+                        
+                        expect(mockDelegate.successText).to(beEmpty())
+                        expect(mockDelegate.error).to(beNil())
+                    }
                 }
             }
             
-            describe("and a incorrectly configured handler") {
+            describe("and a handler configured with an error") {
                 context("When the OSPMTPayments object is initialized") {
                     beforeEach {
                         mockHandler = OSPMTMockHandler(error: .invalidConfiguration)
                         payments = OSPMTPayments(delegate: mockDelegate, handler: mockHandler)
                     }
                     
-                    it("Setup configuration should return a InvalidConfiguration error") {
+                    it("Setup configuration should return the error") {
                         payments.setupConfiguration()
                         
-                        expect(mockDelegate.error).to(equal(mockHandler.error))
+                        expect(mockDelegate.error).to(equal(.invalidConfiguration))
+                        expect(mockDelegate.successText).to(beNil())
+                    }
+                    
+                    it("Check wallet setup should return the error") {
+                        payments.checkWalletSetup()
+                        
+                        expect(mockDelegate.error).to(equal(.invalidConfiguration))
                         expect(mockDelegate.successText).to(beNil())
                     }
                 }
