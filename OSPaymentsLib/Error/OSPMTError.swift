@@ -1,3 +1,4 @@
+/// All plugin errors that can be thrown
 enum OSPMTError: Int, CustomNSError, LocalizedError {
     case invalidConfiguration = 1
     case walletNotAvailable = 2
@@ -8,6 +9,7 @@ enum OSPMTError: Int, CustomNSError, LocalizedError {
     case paymentTriggerNotCompleted = 8
     case invalidEncodeScope = 9
     
+    /// Textual description
     var errorDescription: String? {
         switch self {
         case .invalidConfiguration:

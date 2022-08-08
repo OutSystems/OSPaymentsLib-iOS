@@ -67,7 +67,7 @@ class OSPMTApplePayAvailabilityBehaviourSpec: QuickSpec {
                 }
                 
                 it("should return a PaymentNotAvailable error") {
-                    let result = applePayAvailabilityBehaviour.checkPayment()
+                    let result = applePayAvailabilityBehaviour.checkPaymentAvailability()
                     expect(result).to(equal(.paymentNotAvailable))
                 }
             }
@@ -78,7 +78,7 @@ class OSPMTApplePayAvailabilityBehaviourSpec: QuickSpec {
                 }
                 
                 it("should succeed and return nil") {
-                    let result = applePayAvailabilityBehaviour.checkPayment()
+                    let result = applePayAvailabilityBehaviour.checkPaymentAvailability()
                     expect(result).to(beNil())
                 }
             }
@@ -89,7 +89,7 @@ class OSPMTApplePayAvailabilityBehaviourSpec: QuickSpec {
                 }
                 
                 it("should return a PaymentNotAvailable error") {
-                    let result = applePayAvailabilityBehaviour.checkPaymentSetup()
+                    let result = applePayAvailabilityBehaviour.checkPaymentAvailabilityWithSetup()
                     expect(result).to(equal(.setupPaymentNotAvailable))
                 }
             }
@@ -100,7 +100,7 @@ class OSPMTApplePayAvailabilityBehaviourSpec: QuickSpec {
                 }
                 
                 it("should succeed and return nil") {
-                    let result = applePayAvailabilityBehaviour.checkPaymentSetup()
+                    let result = applePayAvailabilityBehaviour.checkPaymentAvailabilityWithSetup()
                     expect(result).to(beNil())
                 }
             }

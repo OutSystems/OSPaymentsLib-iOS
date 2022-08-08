@@ -17,6 +17,7 @@ class OSPMTScopeModelSpec: QuickSpec {
             paymentData: OSPMTDataModelSpec.TestConfiguration.fullModel,
             shippingInfo: OSPMTContactInfoModelSpec.TestConfiguration.fullModel
         )
+        static let noShippingInfoModel = OSPMTScopeModel(paymentData: OSPMTDataModelSpec.TestConfiguration.fullModel)
         
         static let paymentRequest = PKPaymentRequest()
     }
@@ -50,17 +51,31 @@ class OSPMTScopeModelSpec: QuickSpec {
         
         describe("Given a full configuration without Billing Info") {
             context("When decoding the Data Model") {
-                it("Should return a nil object") {
-                    if OSPMTTestConfigurations.decode(for: OSPMTScopeModel.self, TestConfiguration.noShippingInfoConfig) != nil {
-                        fail()
+                it("Should return a filled object") {
+                    if let model = OSPMTTestConfigurations.decode(for: OSPMTScopeModel.self, TestConfiguration.noShippingInfoConfig) {
+                        expect(model).toNot(beNil())
+                        expect(model.paymentData).toNot(beNil())
+                        expect(model.shippingInfo).to(beNil())
                     } else {
-                        expect(true).to(beTruthy())
+                        fail()
                     }
                 }
             }
         }
         
         describe("Given a full model") {
+            context("When encoding it into JSON") {
+                it("Should return a filled object") {
+                    if let text = OSPMTTestConfigurations.encode(TestConfiguration.fullModel) {
+                        expect(text).toNot(beEmpty())
+                    } else {
+                        fail()
+                    }
+                }
+            }
+        }
+        
+        describe("Given a full model without Shipping Info") {
             context("When encoding it into JSON") {
                 it("Should return a filled object") {
                     if let text = OSPMTTestConfigurations.encode(TestConfiguration.fullModel) {
