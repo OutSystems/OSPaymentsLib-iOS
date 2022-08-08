@@ -15,10 +15,12 @@ class OSPMTMockCallback: OSPMTCallbackDelegate {
 class OSPMTMockHandler: OSPMTHandlerDelegate {
     var successText: String?
     var error: OSPMTError?
+    var scopeModel: OSPMTScopeModel?
     
-    init(successText: String? = nil, error: OSPMTError? = nil) {
+    init(successText: String? = nil, error: OSPMTError? = nil, scopeModel: OSPMTScopeModel? = nil) {
         self.successText = successText
         self.error = error
+        self.scopeModel = scopeModel
     }
     
     func setupConfiguration() -> Result<String, OSPMTError> {
@@ -31,6 +33,14 @@ class OSPMTMockHandler: OSPMTHandlerDelegate {
     
     func checkWalletAvailability() -> OSPMTError? {
         return self.error
+    }
+    
+    func set(_ detailsModel: OSPMTDetailsModel, completion: @escaping OSPMTCompletionHandler) {
+        if let error = self.error {
+            completion(.failure(error))
+        } else if let scopeModel = self.scopeModel {
+            completion(.success(scopeModel))
+        }
     }
 }
 
@@ -48,7 +58,9 @@ class OSPMTPaymentsSpec: QuickSpec {
             describe("and a correctly configured handler") {
                 context("When the OSPMTPayments object is initialized") {
                     beforeEach {
-                        mockHandler = OSPMTMockHandler(successText: OSPMTTestConfigurations.dummyString)
+                        mockHandler = OSPMTMockHandler(
+                            successText: OSPMTTestConfigurations.dummyString, scopeModel: OSPMTTestConfigurations.dummyScopeModel
+                        )
                         payments = OSPMTPayments(delegate: mockDelegate, handler: mockHandler)
                     }
                     
@@ -65,6 +77,24 @@ class OSPMTPaymentsSpec: QuickSpec {
                         expect(mockDelegate.successText).to(beEmpty())
                         expect(mockDelegate.error).to(beNil())
                     }
+                    
+                    it("Set payment details should return a successful scope model") {
+                        if let detailsData = try? JSONSerialization.data(withJSONObject: OSPMTTestConfigurations.validDetailModel),
+                            let detailsString = String(data: detailsData, encoding: .utf8) {
+                            payments.set(detailsString)
+                            
+                            expect(mockDelegate.error).to(beNil())
+                            
+                            let result = payments.encode(OSPMTTestConfigurations.dummyScopeModel)
+                            if case let .success(scopeText) = result {
+                                expect(mockDelegate.successText).to(equal(scopeText))
+                            } else {
+                                fail()
+                            }
+                        } else {
+                            fail()
+                        }
+                    }
                 }
             }
             
@@ -75,18 +105,50 @@ class OSPMTPaymentsSpec: QuickSpec {
                         payments = OSPMTPayments(delegate: mockDelegate, handler: mockHandler)
                     }
                     
-                    it("Setup configuration should return the error") {
+                    it("Setup configuration should return an error") {
                         payments.setupConfiguration()
                         
                         expect(mockDelegate.error).to(equal(.invalidConfiguration))
                         expect(mockDelegate.successText).to(beNil())
                     }
                     
-                    it("Check wallet setup should return the error") {
+                    it("Check wallet setup should return an error") {
                         payments.checkWalletSetup()
                         
                         expect(mockDelegate.error).to(equal(.invalidConfiguration))
                         expect(mockDelegate.successText).to(beNil())
+                    }
+                    
+                    it("Set payment details should return an error") {
+                        if let detailsData = try? JSONSerialization.data(withJSONObject: OSPMTTestConfigurations.validDetailModel),
+                            let detailsString = String(data: detailsData, encoding: .utf8) {
+                            payments.set(detailsString)
+                            
+                            expect(mockDelegate.error).to(equal(.invalidConfiguration))
+                            expect(mockDelegate.successText).to(beNil())
+                        } else {
+                            fail()
+                        }
+                    }
+                }
+            }
+            
+            describe("and set payment details is called") {
+                beforeEach {
+                    mockHandler = OSPMTMockHandler(scopeModel: OSPMTTestConfigurations.dummyScopeModel)
+                    payments = OSPMTPayments(delegate: mockDelegate, handler: mockHandler)
+                }
+                context("When an invalid detail model is passed as a parameter") {
+                    it("should return a error") {
+                        if let detailsData = try? JSONSerialization.data(withJSONObject: OSPMTTestConfigurations.invalidStatusDetailModel),
+                            let detailsString = String(data: detailsData, encoding: .utf8) {
+                            payments.set(detailsString)
+                            
+                            expect(mockDelegate.error).to(equal(.invalidDecodeDetails))
+                            expect(mockDelegate.successText).to(beNil())
+                        } else {
+                            fail()
+                        }
                     }
                 }
             }
