@@ -1,9 +1,21 @@
 import PassKit
 
+protocol OSPMTWalletAvailabilityDelegate: AnyObject {
+    static func isWalletAvailable() -> Bool
+}
+
+protocol OSPMTSetupAvailabilityDelegate: AnyObject {
+    static func isPaymentAvailable() -> Bool
+}
+
 protocol OSPMTAvailabilityDelegate: AnyObject {
     func checkWallet() -> OSPMTError?
     func checkPayment() -> OSPMTError?
     func checkPaymentSetup() -> OSPMTError?
+}
+
+protocol OSPMTApplePaySetupAvailabilityDelegate: OSPMTSetupAvailabilityDelegate {
+    static func isPaymentAvailable(using networks: [PKPaymentNetwork], and merchantCapabilities: PKMerchantCapability) -> Bool
 }
 
 class OSPMTApplePayAvailabilityBehaviour: OSPMTAvailabilityDelegate {

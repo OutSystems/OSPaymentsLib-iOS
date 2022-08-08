@@ -1,17 +1,22 @@
 class OSPMTApplePayHandler: NSObject {
     let configuration: OSPMTConfigurationDelegate
     let availabilityBehaviour: OSPMTAvailabilityDelegate
+    let requestBehaviour: OSPMTRequestDelegate
     
-    init(configuration: OSPMTConfigurationDelegate, availabilityBehaviour: OSPMTAvailabilityDelegate) {
+    init(configuration: OSPMTConfigurationDelegate, availabilityBehaviour: OSPMTAvailabilityDelegate, requestBehaviour: OSPMTRequestDelegate) {
         self.configuration = configuration
         self.availabilityBehaviour = availabilityBehaviour
+        self.requestBehaviour = requestBehaviour
         super.init()
     }
     
     convenience init(configurationSource: OSPMTConfiguration = Bundle.main.infoDictionary!) {
         let applePayConfiguration = OSPMTApplePayConfiguration(source: configurationSource)
         let applePayAvailabilityBehaviour = OSPMTApplePayAvailabilityBehaviour(configuration: applePayConfiguration)
-        self.init(configuration: applePayConfiguration, availabilityBehaviour: applePayAvailabilityBehaviour)
+        let applePayRequestBehaviour = OSPMTApplePayRequestBehaviour(configuration: applePayConfiguration)
+        self.init(
+            configuration: applePayConfiguration, availabilityBehaviour: applePayAvailabilityBehaviour, requestBehaviour: applePayRequestBehaviour
+        )
     }
 }
 
@@ -23,5 +28,9 @@ extension OSPMTApplePayHandler: OSPMTHandlerDelegate {
     
     func checkWalletAvailability() -> OSPMTError? {
         self.availabilityBehaviour.checkWallet() ?? self.availabilityBehaviour.checkPayment() ?? self.availabilityBehaviour.checkPaymentSetup()
+    }
+    
+    func set(_ detailsModel: OSPMTDetailsModel, completion: @escaping OSPMTCompletionHandler) {
+        self.requestBehaviour.trigger(with: detailsModel, completion)
     }
 }
