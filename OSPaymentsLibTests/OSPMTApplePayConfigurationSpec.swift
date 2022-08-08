@@ -23,6 +23,12 @@ class OSPMTApplePayConfigurationSpec: QuickSpec {
                     expect(applePayConfiguration.merchantCapabilities).to(equal([PKMerchantCapability.capability3DS, .capabilityEMV]))
                 }
             }
+            
+            context("When checking the Supported Countries property") {
+                it("should return a valid value") {
+                    expect(applePayConfiguration.supportedCountries).to(equal(Set([OSPMTTestConfigurations.dummyString])))
+                }
+            }
         }
         
         describe("Given a configuration with both valid an invalid values") {
@@ -57,6 +63,12 @@ class OSPMTApplePayConfigurationSpec: QuickSpec {
             context("When checking the Merchant Capabilities property") {
                 it("should return a nil value") {
                     expect(applePayConfiguration.merchantCapabilities).to(beNil())
+                }
+            }
+            
+            context("When checking the Supported Countries property") {
+                it("should return a nil value") {
+                    expect(applePayConfiguration.supportedCountries).to(beNil())
                 }
             }
         }

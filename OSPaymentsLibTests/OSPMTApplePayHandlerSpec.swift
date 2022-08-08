@@ -26,10 +26,29 @@ class OSPMTMockAvailabilityBehaviour: OSPMTAvailabilityDelegate {
     }
 }
 
+class OSPMTMockRequestBehaviour: OSPMTRequestDelegate {
+    var error: OSPMTError?
+    var scopeModel: OSPMTScopeModel?
+    
+    init(error: OSPMTError? = nil, scopeModel: OSPMTScopeModel? = nil) {
+        self.error = error
+        self.scopeModel = scopeModel
+    }
+    
+    func trigger(with detailsModel: OSPMTDetailsModel, _ completion: @escaping OSPMTCompletionHandler) {
+        if let error = self.error {
+            completion(.failure(error))
+        } else {
+            completion(.success(self.scopeModel ?? OSPMTTestConfigurations.dummyScopeModel))
+        }
+    }
+}
+
 class OSPMTApplePayHandlerSpec: QuickSpec {
     override func spec() {
         var applePayHandler: OSPMTApplePayHandler!
         var mockAvailabilityBehaviour: OSPMTMockAvailabilityBehaviour!
+        var mockRequestBehaviour: OSPMTMockRequestBehaviour!
         
         describe("Given a configuration") {
             beforeEach {
@@ -160,11 +179,11 @@ class OSPMTApplePayHandlerSpec: QuickSpec {
                 }
                 
                 context("When Apple Pay Handler is initialized") {
-                    it("should return a InvalidConfiguration error") {
+                    it("should return a successful configuration string") {
                         let result = applePayHandler.setupConfiguration()
                         
-                        if case let .failure(error) = result {
-                            expect(error).to(equal(.invalidConfiguration))
+                        if case let .success(text) = result {
+                            expect(text).toNot(beEmpty())
                         } else {
                             fail()
                         }
@@ -178,11 +197,11 @@ class OSPMTApplePayHandlerSpec: QuickSpec {
                 }
                 
                 context("When Apple Pay Handler is initialized") {
-                    it("should return a successful configuration string") {
+                    it("should return a InvalidConfiguration error") {
                         let result = applePayHandler.setupConfiguration()
                         
-                        if case let .success(text) = result {
-                            expect(text).toNot(beEmpty())
+                        if case let .failure(error) = result {
+                            expect(error).to(equal(.invalidConfiguration))
                         } else {
                             fail()
                         }
@@ -196,11 +215,11 @@ class OSPMTApplePayHandlerSpec: QuickSpec {
                 }
                 
                 context("When Apple Pay Handler is initialized") {
-                    it("should return a successful configuration string") {
+                    it("should return a InvalidConfiguration error") {
                         let result = applePayHandler.setupConfiguration()
                         
-                        if case let .success(text) = result {
-                            expect(text).toNot(beEmpty())
+                        if case let .failure(error) = result {
+                            expect(error).to(equal(.invalidConfiguration))
                         } else {
                             fail()
                         }
@@ -214,11 +233,14 @@ class OSPMTApplePayHandlerSpec: QuickSpec {
             
             beforeEach {
                 applePayConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.fullConfig)
+                mockRequestBehaviour = OSPMTMockRequestBehaviour()
             }
             context("When Wallet is not available for usage") {
                 beforeEach {
                     mockAvailabilityBehaviour = OSPMTMockAvailabilityBehaviour(error: .walletNotAvailable)
-                    applePayHandler = OSPMTApplePayHandler(configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour)
+                    applePayHandler = OSPMTApplePayHandler(
+                        configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour, requestBehaviour: mockRequestBehaviour
+                    )
                 }
                 
                 it("should return the walletNotAvailable error") {
@@ -231,7 +253,9 @@ class OSPMTApplePayHandlerSpec: QuickSpec {
             context("When Payment is not available for usage") {
                 beforeEach {
                     mockAvailabilityBehaviour = OSPMTMockAvailabilityBehaviour(error: .paymentNotAvailable)
-                    applePayHandler = OSPMTApplePayHandler(configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour)
+                    applePayHandler = OSPMTApplePayHandler(
+                        configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour, requestBehaviour: mockRequestBehaviour
+                    )
                 }
                 
                 it("should return the paymentNotAvailable error") {
@@ -244,7 +268,9 @@ class OSPMTApplePayHandlerSpec: QuickSpec {
             context("When Payment is not available for usage") {
                 beforeEach {
                     mockAvailabilityBehaviour = OSPMTMockAvailabilityBehaviour(error: .setupPaymentNotAvailable)
-                    applePayHandler = OSPMTApplePayHandler(configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour)
+                    applePayHandler = OSPMTApplePayHandler(
+                        configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour, requestBehaviour: mockRequestBehaviour
+                    )
                 }
                 
                 it("should return the setupPaymentNotAvailable error") {
@@ -257,7 +283,9 @@ class OSPMTApplePayHandlerSpec: QuickSpec {
             context("When everything is available for usage") {
                 beforeEach {
                     mockAvailabilityBehaviour = OSPMTMockAvailabilityBehaviour()
-                    applePayHandler = OSPMTApplePayHandler(configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour)
+                    applePayHandler = OSPMTApplePayHandler(
+                        configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour, requestBehaviour: mockRequestBehaviour
+                    )
                 }
                 
                 it("should return a nil error") {
@@ -266,6 +294,52 @@ class OSPMTApplePayHandlerSpec: QuickSpec {
                     expect(error).to(beNil())
                 }
             }
-        }       
+        }
+        
+        describe("Given an RequestBehaviour") {
+            var applePayConfiguration: OSPMTApplePayConfiguration!
+            
+            beforeEach {
+                applePayConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.fullConfig)
+                mockAvailabilityBehaviour = OSPMTMockAvailabilityBehaviour()
+            }
+            context("When an error occurs while triggering") {
+                beforeEach {
+                    mockRequestBehaviour = OSPMTMockRequestBehaviour(error: .invalidConfiguration)
+                    applePayHandler = OSPMTApplePayHandler(
+                        configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour, requestBehaviour: mockRequestBehaviour
+                    )
+                }
+                
+                it("should return that same error") {
+                    applePayHandler.set(OSPMTTestConfigurations.dummyDetailsModel) { result in
+                        if case let .failure(error) = result {
+                            expect(error).to(equal(mockRequestBehaviour.error))
+                        } else {
+                            fail()
+                        }
+                    }
+                }
+            }
+            
+            context("When the trigger is successful") {
+                beforeEach {
+                    mockRequestBehaviour = OSPMTMockRequestBehaviour(scopeModel: OSPMTTestConfigurations.dummyScopeModel)
+                    applePayHandler = OSPMTApplePayHandler(
+                        configuration: applePayConfiguration, availabilityBehaviour: mockAvailabilityBehaviour, requestBehaviour: mockRequestBehaviour
+                    )
+                }
+                
+                it("should return the resulting Payment Scope value") {
+                    applePayHandler.set(OSPMTTestConfigurations.dummyDetailsModel) { result in
+                        if case let .success(scopeModel) = result {
+                            expect(scopeModel).to(equal(mockRequestBehaviour.scopeModel))
+                        } else {
+                            fail()
+                        }
+                    }
+                }
+            }
+        }
     }
 }
