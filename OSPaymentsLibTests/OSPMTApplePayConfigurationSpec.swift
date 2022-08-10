@@ -65,17 +65,11 @@ class OSPMTApplePayConfigurationSpec: QuickSpec {
                     expect(applePayConfiguration.merchantCapabilities).to(beNil())
                 }
             }
-            
-            context("When checking the Supported Countries property") {
-                it("should return a nil value") {
-                    expect(applePayConfiguration.supportedCountries).to(beNil())
-                }
-            }
         }
         
-        describe("Given a nil configuration") {
+        describe("Given an empty configuration") {
             beforeEach {
-                applePayConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.invalidNetworkCapabilityConfig)
+                applePayConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.emptyNetworkCapabilityConfig)
             }
             
             context("When checking the Supported Networks property") {
@@ -87,6 +81,36 @@ class OSPMTApplePayConfigurationSpec: QuickSpec {
             context("When checking the Merchant Capabilities property") {
                 it("should return a nil value") {
                     expect(applePayConfiguration.merchantCapabilities).to(beNil())
+                }
+            }
+            
+            context("When checking the Supported Countries property") {
+                it("should return a nil value") {
+                    expect(applePayConfiguration.supportedCountries).to(beNil())
+                }
+            }
+        }
+        
+        describe("Given a nil configuration") {
+            beforeEach {
+                applePayConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.nilNetworkCapabilityConfig)
+            }
+            
+            context("When checking the Supported Networks property") {
+                it("should return a nil value") {
+                    expect(applePayConfiguration.supportedNetworks).to(beNil())
+                }
+            }
+            
+            context("When checking the Merchant Capabilities property") {
+                it("should return a nil value") {
+                    expect(applePayConfiguration.merchantCapabilities).to(beNil())
+                }
+            }
+            
+            context("When checking the Supported Countries property") {
+                it("should return a nil value") {
+                    expect(applePayConfiguration.supportedCountries).to(beNil())
                 }
             }
         }
