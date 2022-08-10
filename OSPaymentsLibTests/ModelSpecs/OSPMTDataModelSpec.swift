@@ -38,6 +38,11 @@ class OSPMTDataModelSpec: QuickSpec {
             cardNetwork: OSPMTTestConfigurations.dummyString,
             tokenData: OSPMTTokenInfoModelSpec.TestConfiguration.fullModel
         )
+        static let noBillingModel = OSPMTDataModel(
+            cardDetails: OSPMTTestConfigurations.dummyString,
+            cardNetwork: OSPMTTestConfigurations.dummyString,
+            tokenData: OSPMTTokenInfoModelSpec.TestConfiguration.fullModel
+        )
     }
     
     override func spec() {
@@ -59,11 +64,15 @@ class OSPMTDataModelSpec: QuickSpec {
         
         describe("Given a full configuration without Billing Info") {
             context("When decoding the Data Model") {
-                it("Should return a nil object") {
-                    if OSPMTTestConfigurations.decode(for: OSPMTDataModel.self, TestConfiguration.noBillingInfoConfig) != nil {
-                        fail()
+                it("Should return a filled object") {
+                    if let model = OSPMTTestConfigurations.decode(for: OSPMTDataModel.self, TestConfiguration.noBillingInfoConfig) {
+                        expect(model).toNot(beNil())
+                        expect(model.billingInfo).to(beNil())
+                        expect(model.cardDetails).to(equal(OSPMTTestConfigurations.dummyString))
+                        expect(model.cardNetwork).to(equal(OSPMTTestConfigurations.dummyString))
+                        expect(model.tokenData).to(equal(OSPMTTokenInfoModelSpec.TestConfiguration.fullModel))
                     } else {
-                        expect(true).to(beTruthy())
+                        fail()
                     }
                 }
             }
@@ -109,6 +118,18 @@ class OSPMTDataModelSpec: QuickSpec {
             context("When encoding it into JSON") {
                 it("Should return a filled object") {
                     if let text = OSPMTTestConfigurations.encode(TestConfiguration.fullModel) {
+                        expect(text).toNot(beEmpty())
+                    } else {
+                        fail()
+                    }
+                }
+            }
+        }
+        
+        describe("Given a full model without Billing Info") {
+            context("When encoding it into JSON") {
+                it("Should return a filled object") {
+                    if let text = OSPMTTestConfigurations.encode(TestConfiguration.noBillingModel) {
                         expect(text).toNot(beEmpty())
                     } else {
                         fail()

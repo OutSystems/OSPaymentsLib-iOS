@@ -13,8 +13,8 @@ struct OSPMTTestConfigurations {
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: Self.dummyString + "," + Self.dummyString,
-        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: Self.dummyString + "," + Self.dummyString
+        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: [Self.dummyString, Self.dummyString]
     ]
     
     static let noMerchantIDConfig: OSPMTConfiguration = [
@@ -23,8 +23,8 @@ struct OSPMTTestConfigurations {
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: Self.dummyString + "," + Self.dummyString,
-        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: Self.dummyString + "," + Self.dummyString
+        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: [Self.dummyString, Self.dummyString]
     ]
     
     static let noMerchantNameConfig: OSPMTConfiguration = [
@@ -33,8 +33,8 @@ struct OSPMTTestConfigurations {
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: Self.dummyString + "," + Self.dummyString,
-        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: Self.dummyString + "," + Self.dummyString
+        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: [Self.dummyString, Self.dummyString]
     ]
     
     static let noMerchantCountryCodeConfig: OSPMTConfiguration = [
@@ -43,8 +43,8 @@ struct OSPMTTestConfigurations {
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: Self.dummyString + "," + Self.dummyString,
-        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: Self.dummyString + "," + Self.dummyString
+        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: [Self.dummyString, Self.dummyString]
     ]
     
     static let noPaymentAllowedNetworksConfig: OSPMTConfiguration = [
@@ -53,8 +53,8 @@ struct OSPMTTestConfigurations {
         OSPMTApplePayConfiguration.ConfigurationKeys.merchantCountryCode: Self.dummyString,
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: Self.dummyString + "," + Self.dummyString,
-        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: Self.dummyString + "," + Self.dummyString
+        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: [Self.dummyString, Self.dummyString]
     ]
     
     static let noPaymentSupportedCapabilitiesConfig: OSPMTConfiguration = [
@@ -63,8 +63,8 @@ struct OSPMTTestConfigurations {
         OSPMTApplePayConfiguration.ConfigurationKeys.merchantCountryCode: Self.dummyString,
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: Self.dummyString + "," + Self.dummyString,
-        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: Self.dummyString + "," + Self.dummyString
+        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: [Self.dummyString, Self.dummyString]
     ]
     
     static let noPaymentSupportedCardCountriesConfig: OSPMTConfiguration = [
@@ -73,8 +73,8 @@ struct OSPMTTestConfigurations {
         OSPMTApplePayConfiguration.ConfigurationKeys.merchantCountryCode: Self.dummyString,
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: Self.dummyString + "," + Self.dummyString,
-        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: Self.dummyString + "," + Self.dummyString
+        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: [Self.dummyString, Self.dummyString]
     ]
     
     static let noShippingSupportedContactsConfig: OSPMTConfiguration = [
@@ -83,8 +83,8 @@ struct OSPMTTestConfigurations {
         OSPMTApplePayConfiguration.ConfigurationKeys.merchantCountryCode: Self.dummyString,
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: Self.dummyString + "," + Self.dummyString,
-        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: Self.dummyString + "," + Self.dummyString
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: [Self.dummyString, Self.dummyString]
     ]
     
     static let noBillingSupportedContactsConfig: OSPMTConfiguration = [
@@ -93,8 +93,8 @@ struct OSPMTTestConfigurations {
         OSPMTApplePayConfiguration.ConfigurationKeys.merchantCountryCode: Self.dummyString,
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.dummyString],
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: Self.dummyString + "," + Self.dummyString,
-        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: Self.dummyString + "," + Self.dummyString
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: [Self.dummyString, Self.dummyString]
     ]
     
     // MARK: - OSPMTApplePayConfigurationSpec Configurations
@@ -111,8 +111,7 @@ struct OSPMTTestConfigurations {
     
     static let validNetworkCapabilityWithErrorConfig: OSPMTConfiguration = [
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.networkVisa, Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.capability3DS, Self.dummyString],
-        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString]
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.capability3DS, Self.dummyString]
     ]
     
     static let invalidNetworkCapabilityConfig: OSPMTConfiguration = [
@@ -120,7 +119,13 @@ struct OSPMTTestConfigurations {
         OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: Self.dummyString
     ]
     
-    static let emptyNetworkCapabilityConfig: OSPMTConfiguration = [:]
+    static let emptyNetworkCapabilityConfig: OSPMTConfiguration = [
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [],
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [],
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: []
+    ]
+    
+    static let nilNetworkCapabilityConfig: OSPMTConfiguration = [:]
     
     // MARK: - OSPMTApplePayRequestBehaviourSpec Configurations
     static let dummyDetailsModel = OSPMTDetailsModel(amount: 1, currency: Self.dummyString, status: .final)

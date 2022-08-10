@@ -17,12 +17,8 @@ class OSPMTMockAvailabilityBehaviour: OSPMTAvailabilityDelegate {
         self.checkIfEqual(to: .walletNotAvailable)
     }
     
-    func checkPayment() -> OSPMTError? {
-        self.checkIfEqual(to: .paymentNotAvailable)
-    }
-    
-    func checkPaymentSetup() -> OSPMTError? {
-        self.checkIfEqual(to: .setupPaymentNotAvailable)
+    func checkPayment(shouldVerifySetup: Bool) -> OSPMTError? {
+        self.checkIfEqual(to: shouldVerifySetup ? .setupPaymentNotAvailable : .paymentNotAvailable)
     }
 }
 
@@ -68,9 +64,7 @@ class OSPMTApplePayHandlerSpec: QuickSpec {
                             OSPMTTestConfigurations.fullConfig.forEach { item in
                                 expect(text).to(contain(item.key))
                                 expect(text).toNot(beEmpty())
-                                if let value = item.value as? String {
-                                    expect(value).toNot(beEmpty())
-                                } else if let value = item.value as? [String] {
+                                if let value = item.value as? [String] {
                                     expect(value).toNot(beEmpty())
                                 }
                             }
