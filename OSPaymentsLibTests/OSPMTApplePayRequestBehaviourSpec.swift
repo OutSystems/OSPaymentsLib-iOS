@@ -35,7 +35,7 @@ class OSPMTApplePayRequestBehaviourSpec: QuickSpec {
                 beforeEach {
                     mockConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.validNetworkCapabilityConfig)
                     applePayRequestBehaviour = OSPMTApplePayRequestBehaviour(
-                        configuration: mockConfiguration, requestTriggerBehaviour: MockRequestTriggerBehaviour.self
+                        configuration: mockConfiguration, requestTriggerType: MockRequestTriggerBehaviour.self
                     )
                     MockRequestTriggerBehaviour.error = .invalidConfiguration
                 }
@@ -55,7 +55,7 @@ class OSPMTApplePayRequestBehaviourSpec: QuickSpec {
                 beforeEach {
                     mockConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.validNetworkCapabilityConfig)
                     applePayRequestBehaviour = OSPMTApplePayRequestBehaviour(
-                        configuration: mockConfiguration, requestTriggerBehaviour: MockRequestTriggerBehaviour.self
+                        configuration: mockConfiguration, requestTriggerType: MockRequestTriggerBehaviour.self
                     )
                     MockRequestTriggerBehaviour.error = nil
                     MockRequestTriggerBehaviour.isCompleted = false
@@ -76,7 +76,7 @@ class OSPMTApplePayRequestBehaviourSpec: QuickSpec {
                 beforeEach {
                     mockConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.validNetworkCapabilityConfig)
                     applePayRequestBehaviour = OSPMTApplePayRequestBehaviour(
-                        configuration: mockConfiguration, requestTriggerBehaviour: MockRequestTriggerBehaviour.self
+                        configuration: mockConfiguration, requestTriggerType: MockRequestTriggerBehaviour.self
                     )
                     MockRequestTriggerBehaviour.error = nil
                     MockRequestTriggerBehaviour.isCompleted = true
@@ -99,7 +99,7 @@ class OSPMTApplePayRequestBehaviourSpec: QuickSpec {
                     beforeEach {
                         mockConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.noMerchantNameConfig)
                         applePayRequestBehaviour = OSPMTApplePayRequestBehaviour(
-                            configuration: mockConfiguration, requestTriggerBehaviour: MockRequestTriggerBehaviour.self
+                            configuration: mockConfiguration, requestTriggerType: MockRequestTriggerBehaviour.self
                         )
                     }
                     it("should return a nil value") {
@@ -113,7 +113,7 @@ class OSPMTApplePayRequestBehaviourSpec: QuickSpec {
                     beforeEach {
                         mockConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.fullConfig)
                         applePayRequestBehaviour = OSPMTApplePayRequestBehaviour(
-                            configuration: mockConfiguration, requestTriggerBehaviour: MockRequestTriggerBehaviour.self
+                            configuration: mockConfiguration, requestTriggerType: MockRequestTriggerBehaviour.self
                         )
                     }
                     it("should return a non empty value") {
@@ -128,7 +128,7 @@ class OSPMTApplePayRequestBehaviourSpec: QuickSpec {
                 beforeEach {
                     mockConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.fullConfig)
                     applePayRequestBehaviour = OSPMTApplePayRequestBehaviour(
-                        configuration: mockConfiguration, requestTriggerBehaviour: MockRequestTriggerBehaviour.self
+                        configuration: mockConfiguration, requestTriggerType: MockRequestTriggerBehaviour.self
                     )
                 }
                 context("and no contact is provided") {

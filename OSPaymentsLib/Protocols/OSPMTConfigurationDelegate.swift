@@ -2,6 +2,7 @@ import PassKit
 
 typealias OSPMTConfiguration = [String: Any]
 
+/// Protocol that contains all properties needed to configure a payment service.
 protocol OSPMTConfigurationDelegate: AnyObject, CustomStringConvertible {
     var source: OSPMTConfiguration { get set }
     
@@ -22,22 +23,9 @@ protocol OSPMTConfigurationDelegate: AnyObject, CustomStringConvertible {
     var billingSupportedContacts: [String]? { get }
 }
 
-extension OSPMTConfigurationDelegate {
-    func getTextArrayProperty(for key: String) -> [String]? {
-        var result: [String]?
-        
-        if let valueText = self.source[key] as? String {
-            result = valueText.components(separatedBy: ",")
-        } else if let valueArray = self.source[key] as? [String] {
-            result = valueArray
-        }
-        
-        return result
-    }
-}
-
-/// `ÒSPMTConfigurationProtocol` implemention for Apple Pay
+/// Manages all configuration properties required to enable Apple Pay in the plugin.
 class OSPMTApplePayConfiguration: OSPMTConfigurationDelegate {
+    /// Structures with all configuration property identifiers.
     struct ConfigurationKeys {
         static let merchantID = "ApplePayMerchantID"
         static let merchantName = "ApplePayMerchantName"
@@ -54,44 +42,46 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationDelegate {
     
     var source: OSPMTConfiguration
     
+    /// Constructor method.
+    /// - Parameter source: The source to fetch the configuration for (e.g. main bundle).
     init(source: OSPMTConfiguration) {
         self.source = source
     }
     
     // MARK: Merchant Information
     var merchantID: String? {
-        self.source[ConfigurationKeys.merchantID] as? String
+        self.getRequiredProperty(ofType: String.self, forKey: ConfigurationKeys.merchantID)
     }
     var merchantName: String? {
-        self.source[ConfigurationKeys.merchantName] as? String
+        self.getRequiredProperty(ofType: String.self, forKey: ConfigurationKeys.merchantName)
     }
     var merchantCountryCode: String? {
-        self.source[ConfigurationKeys.merchantCountryCode] as? String
+        self.getRequiredProperty(ofType: String.self, forKey: ConfigurationKeys.merchantCountryCode)
     }
     
     // MARK: Payment Information
     var paymentAllowedNetworks: [String]? {
-        self.getTextArrayProperty(for: ConfigurationKeys.paymentAllowedNetworks)
+        self.getRequiredProperty(ofType: [String].self, forKey: ConfigurationKeys.paymentAllowedNetworks)
     }
     var paymentSupportedCapabilities: [String]? {
-        self.getTextArrayProperty(for: ConfigurationKeys.paymentSupportedCapabilities)
+        self.getRequiredProperty(ofType: [String].self, forKey: ConfigurationKeys.paymentSupportedCapabilities)
     }
     var paymentSupportedCardCountries: [String]? {
-        self.getTextArrayProperty(for: ConfigurationKeys.paymentSupportedCardCountries)
+        self.getProperty(ofType: [String].self, forKey: ConfigurationKeys.paymentSupportedCardCountries)
     }
     
     // MARK: Shipping Information
     var shippingSupportedContacts: [String]? {
-        self.getTextArrayProperty(for: ConfigurationKeys.shippingSupportedContacts)
+        self.getProperty(ofType: [String].self, forKey: ConfigurationKeys.shippingSupportedContacts)
     }
     
     // MARK: Billing Information
     var billingSupportedContacts: [String]? {
-        self.getTextArrayProperty(for: ConfigurationKeys.billingSupportedContacts)
+        self.getProperty(ofType: [String].self, forKey: ConfigurationKeys.billingSupportedContacts)
     }
     
     // MARK: CustomStringConvertible Property
-    var description: String {
+    lazy var description: String = {
         guard let merchantID = self.merchantID,
               let merchantName = self.merchantName,
               let merchantCountryCode = self.merchantCountryCode,
@@ -107,13 +97,15 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationDelegate {
             ConfigurationKeys.merchantCountryCode: merchantCountryCode,
             
             ConfigurationKeys.paymentAllowedNetworks: paymentAllowedNetworks,
-            ConfigurationKeys.paymentSupportedCapabilities: paymentSupportedCapabilities,
-            
-            ConfigurationKeys.shippingSupportedContacts: shippingSupportedContacts,
-            
-            ConfigurationKeys.billingSupportedContacts: billingSupportedContacts
+            ConfigurationKeys.paymentSupportedCapabilities: paymentSupportedCapabilities
         ]
         
+        if let shippingSupportedContacts = self.shippingSupportedContacts {
+            configurationDict[ConfigurationKeys.shippingSupportedContacts] = shippingSupportedContacts
+        }
+        if let billingSupportedContacts = self.billingSupportedContacts {
+            configurationDict[ConfigurationKeys.billingSupportedContacts] = billingSupportedContacts
+        }
         if let paymentSupportedCardCountries = self.paymentSupportedCardCountries {
             configurationDict[ConfigurationKeys.paymentSupportedCardCountries] = paymentSupportedCardCountries
         }
@@ -121,6 +113,28 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationDelegate {
         guard let data = try? JSONSerialization.data(withJSONObject: configurationDict), let result = String(data: data, encoding: .utf8)
         else { return "" }
         return result
+    }()
+}
+
+private extension OSPMTApplePayConfiguration {
+    /// Fetches the parameter property, if it exists.
+    /// - Parameters:
+    ///   - type: Type of variable to return.
+    ///   - key: Property key to search from.
+    ///   - isRequired: Indicates if the property is mandatory or not.
+    /// - Returns: The configuration property, if it exists.
+    func getProperty<T: Collection>(ofType type: T.Type, forKey key: String, isRequired: Bool = false) -> T? {
+        let result = self.source[key] as? T
+        return !isRequired || result?.isEmpty == false ? result : nil
+    }
+    
+    /// An acelerator for `getProperty(ofType:forKey:isRequired:)`, that should be used for mandatory properties.
+    /// - Parameters:
+    ///   - type: Type of variable to return.
+    ///   - key: Property key to search from.
+    /// - Returns: The configuration property, if it exists.
+    func getRequiredProperty<T: Collection>(ofType type: T.Type, forKey key: String) -> T? {
+        self.getProperty(ofType: type, forKey: key, isRequired: true)
     }
 }
 
@@ -147,7 +161,7 @@ extension OSPMTApplePayConfiguration {
     }
     
     var supportedCountries: Set<String>? {
-        guard let paymentSupportedCardCountries = self.paymentSupportedCardCountries else { return nil }
-        return !paymentSupportedCardCountries.isEmpty ? Set(paymentSupportedCardCountries) : nil
+        guard let paymentSupportedCardCountries = self.paymentSupportedCardCountries, !paymentSupportedCardCountries.isEmpty else { return nil }
+        return Set(paymentSupportedCardCountries)
     }
 }
