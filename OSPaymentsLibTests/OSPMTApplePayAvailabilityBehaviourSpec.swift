@@ -15,7 +15,7 @@ class MockSetupAvailableBehaviour: OSPMTApplePaySetupAvailabilityDelegate {
     static var setupAvailable: Bool = false
     static var paymentAvailable: Bool = false
     
-    static func isPaymentAvailable(using networks: [PKPaymentNetwork], and merchantCapabilities: PKMerchantCapability) -> Bool {
+    static func isPaymentAvailable(using networks: [PKPaymentNetwork]?, and merchantCapabilities: PKMerchantCapability?) -> Bool {
         return Self.setupAvailable
     }
     
