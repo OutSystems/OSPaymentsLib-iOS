@@ -96,6 +96,40 @@ class OSPMTPaymentsSpec: QuickSpec {
                         }
                     }
                 }
+                
+                context("When the OSPMTPayments object is initialized") {
+                    context("""
+                            And payment details is set so that it should use the billing information
+                            from the configuration and custom shipping information
+                            """) {
+                        beforeEach {
+                            mockHandler = OSPMTMockHandler(
+                                successText: OSPMTTestConfigurations.dummyString,
+                                scopeModel: OSPMTTestConfigurations.useConfigurationBillingScopeModel
+                            )
+                            payments = OSPMTPayments(delegate: mockDelegate, handler: mockHandler)
+                        }
+                        
+                        it("Should return the values as expected") {
+                            if let detailsData = try? JSONSerialization.data(
+                                withJSONObject: OSPMTTestConfigurations.useConfigBillingContactDetailModel
+                            ),
+                               let detailsString = String(data: detailsData, encoding: .utf8) {
+                                payments.set(detailsString)
+                                
+                                expect(mockDelegate.error).to(beNil())
+                                let result = payments.encode(OSPMTTestConfigurations.useConfigurationBillingScopeModel)
+                                if case let .success(scopeText) = result {
+                                    expect(mockDelegate.successText).to(equal(scopeText))
+                                } else {
+                                    fail()
+                                }
+                            } else {
+                                fail()
+                            }
+                        }
+                    }
+                }
             }
             
             describe("and a handler configured with an error") {
