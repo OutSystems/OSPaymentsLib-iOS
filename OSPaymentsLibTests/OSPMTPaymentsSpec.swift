@@ -35,7 +35,7 @@ class OSPMTMockHandler: OSPMTHandlerDelegate {
         return self.error
     }
     
-    func set(_ detailsModel: OSPMTDetailsModel, and accessToken: String?, _ completion: @escaping OSPMTCompletionHandler) {
+    func set(_ detailsModel: OSPMTDetailsModel, completion: @escaping OSPMTCompletionHandler) {
         if let error = self.error {
             completion(.failure(error))
         } else if let scopeModel = self.scopeModel {
@@ -45,7 +45,7 @@ class OSPMTMockHandler: OSPMTHandlerDelegate {
 }
 
 class OSPMTPaymentsSpec: QuickSpec {
-    override class func spec() {
+    override func spec() {
         var mockDelegate: OSPMTMockCallback!
         var mockHandler: OSPMTMockHandler!
         var payments: OSPMTPayments!
@@ -86,12 +86,8 @@ class OSPMTPaymentsSpec: QuickSpec {
                             expect(mockDelegate.error).to(beNil())
                             
                             let result = payments.encode(OSPMTTestConfigurations.dummyScopeModel)
-                            if case let .success(scopeText) = result,
-                               let scopeTextData = scopeText.data(using: .utf8),
-                               let successTextData = mockDelegate.successText?.data(using: .utf8),
-                               let scopeObject = try? JSONSerialization.jsonObject(with: scopeTextData) as? [String: Any],
-                               let successTextObject = try? JSONSerialization.jsonObject(with: successTextData) as? [String: Any] {
-                                expect(NSDictionary(dictionary: scopeObject)).to(equal(NSDictionary(dictionary: successTextObject)))
+                            if case let .success(scopeText) = result {
+                                expect(mockDelegate.successText).to(equal(scopeText))
                             } else {
                                 fail()
                             }
@@ -122,14 +118,9 @@ class OSPMTPaymentsSpec: QuickSpec {
                                 payments.set(detailsString)
                                 
                                 expect(mockDelegate.error).to(beNil())
-                                
                                 let result = payments.encode(OSPMTTestConfigurations.useConfigurationBillingScopeModel)
-                                if case let .success(scopeText) = result,
-                                   let scopeTextData = scopeText.data(using: .utf8),
-                                   let successTextData = mockDelegate.successText?.data(using: .utf8),
-                                   let scopeObject = try? JSONSerialization.jsonObject(with: scopeTextData) as? [String: Any],
-                                   let successTextObject = try? JSONSerialization.jsonObject(with: successTextData) as? [String: Any] {
-                                    expect(NSDictionary(dictionary: scopeObject)).to(equal(NSDictionary(dictionary: successTextObject)))
+                                if case let .success(scopeText) = result {
+                                    expect(mockDelegate.successText).to(equal(scopeText))
                                 } else {
                                     fail()
                                 }
@@ -198,37 +189,15 @@ class OSPMTPaymentsSpec: QuickSpec {
             
             describe("and an Apple Pay Handler correctly configured") {
                 context("When the OSPMTPayments object is initialized") {
-                    it("Setup configuration should return a non empty text message") {
+                    beforeEach {
                         payments = OSPMTPayments(applePayWithDelegate: mockDelegate, andConfiguration: OSPMTTestConfigurations.fullConfig)
-                        
+                    }
+                    
+                    it("Setup configuration should return a non empty text message") {
                         payments.setupConfiguration()
                         
                         expect(mockDelegate.successText).toNot(beEmpty())
                         expect(mockDelegate.error).to(beNil())
-                    }
-                    
-                    context("And Payment Gateway information is provided") {
-                        it("Setup configuration should return a non empty text message") {
-                            payments = OSPMTPayments(applePayWithDelegate: mockDelegate, andConfiguration: OSPMTTestConfigurations.dummyGatewayConfig)
-                            
-                            payments.setupConfiguration()
-                            
-                            expect(mockDelegate.successText).toNot(beEmpty())
-                            expect(mockDelegate.error).to(beNil())
-                        }
-                    }
-                    
-                    context("And a Stripe Payment Gateway information is provided") {
-                        it("Setup configuration should return a non empty text message") {
-                            payments = OSPMTPayments(
-                                applePayWithDelegate: mockDelegate, andConfiguration: OSPMTTestConfigurations.stripeGatewayConfig
-                            )
-                            
-                            payments.setupConfiguration()
-                            
-                            expect(mockDelegate.successText).toNot(beEmpty())
-                            expect(mockDelegate.error).to(beNil())
-                        }
                     }
                 }
             }

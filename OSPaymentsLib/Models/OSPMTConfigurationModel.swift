@@ -1,43 +1,6 @@
 import PassKit
 
-/// Model that manages the Payment Service Provider's configuration.
-struct OSPMTGatewayModel: Encodable {
-    let gateway: String
-    let publishableKey: String?
-    let requestURL: String
-    
-    /// Keys used to encode and decode the model.
-    enum CodingKeys: String, CodingKey {
-        case gateway
-        case publishableKey
-        case requestURL
-    }
-    
-    /// Encodes this value into the given encoder.
-    ///
-    /// If the value fails to encode anything, `encoder` will encode an empty
-    /// keyed container in its place.
-    ///
-    /// This function throws an error if any values are invalid for the given
-    /// encoder's format.
-    ///
-    /// - Parameter encoder: The encoder to write data to.
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        try container.encode(gateway, forKey: .gateway)
-        try container.encodeIfPresent(publishableKey, forKey: .publishableKey)
-        try container.encode(requestURL, forKey: .requestURL)
-    }
-}
-
-extension OSPMTGatewayModel {
-    var gatewayEnum: OSPMTGateway? {
-        return OSPMTGateway.convert(from: self.gateway)
-    }
-}
-
-/// Model that contains all properties needed to configure a payment service.
+/// Protocol that contains all properties needed to configure a payment service.
 class OSPMTConfigurationModel: Encodable {
     // MARK: Merchant Information
     var merchantID: String?
@@ -55,9 +18,6 @@ class OSPMTConfigurationModel: Encodable {
     // MARK: Billing Information
     var billingSupportedContacts: [String]?
     
-    // MARK: Payment Service Provider Information
-    var gatewayModel: OSPMTGatewayModel?
-    
     /// Keys used to encode and decode the model.
     enum CodingKeys: String, CodingKey {
         case merchantID
@@ -68,7 +28,6 @@ class OSPMTConfigurationModel: Encodable {
         case paymentSupportedCardCountries
         case shippingSupportedContacts
         case billingSupportedContacts
-        case gatewayModel = "tokenization"
     }
     
     /// Constructor method.
@@ -81,18 +40,7 @@ class OSPMTConfigurationModel: Encodable {
     ///   - paymentSupportedCardCountries: Payment Support Card Countries configured
     ///   - shippingSupportedContacts: Shipping Supported Contacts configured
     ///   - billingSupportedContacts: Billing Supported Contacts configured
-    ///   - tokenization: Payment Service Gateway configured
-    init(
-        merchantID: String?,
-        merchantName: String?,
-        merchantCountryCode: String?,
-        paymentAllowedNetworks: [String]?,
-        paymentSupportedCapabilities: [String]?,
-        paymentSupportedCardCountries: [String]?,
-        shippingSupportedContacts: [String]?,
-        billingSupportedContacts: [String]?,
-        gatewayModel: OSPMTGatewayModel?
-    ) {
+    init(merchantID: String?, merchantName: String?, merchantCountryCode: String?, paymentAllowedNetworks: [String]?, paymentSupportedCapabilities: [String]?, paymentSupportedCardCountries: [String]?, shippingSupportedContacts: [String]?, billingSupportedContacts: [String]?) {
         self.merchantID = merchantID
         self.merchantName = merchantName
         self.merchantCountryCode = merchantCountryCode
@@ -101,7 +49,6 @@ class OSPMTConfigurationModel: Encodable {
         self.paymentSupportedCardCountries = paymentSupportedCardCountries
         self.shippingSupportedContacts = shippingSupportedContacts
         self.billingSupportedContacts = billingSupportedContacts
-        self.gatewayModel = gatewayModel
     }
     
     /// Encodes this value into the given encoder.
@@ -131,13 +78,10 @@ class OSPMTConfigurationModel: Encodable {
         
         // MARK: Billing Information
         try container.encodeIfPresent(billingSupportedContacts, forKey: .billingSupportedContacts)
-        
-        // MARK: Payment Service Provider Information
-        try container.encodeIfPresent(gatewayModel, forKey: .gatewayModel)
     }
 }
 
-public typealias OSPMTConfiguration = [String: Any]
+typealias OSPMTConfiguration = [String: Any]
 
 /// Manages all configuration properties required to enable Apple Pay in the plugin.
 class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
@@ -153,42 +97,42 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
         static let shippingSupportedContacts = "ApplePayShippingSupportedContacts"
         
         static let billingSupportedContacts = "ApplePayBillingSupportedContacts"
-        
-        static let paymentGateway = "ApplePayPaymentGateway"
-        static let paymentGatewayName = "ApplePayPaymentGatewayName"
-        static let paymentRequestURL = "ApplePayRequestURL"
-        static let stripePublishableKey = "ApplePayStripePublishableKey"
     }
     
     /// Constructor method.
     /// - Parameter source: Source class contaning the configuration.
     convenience init(source: OSPMTConfiguration) {
         // MARK: Merchant Information
-        let merchantID: String? = Self.getRequiredProperty(forSource: source, andKey: ConfigurationKeys.merchantID)
-        let merchantName: String? = Self.getRequiredProperty(forSource: source, andKey: ConfigurationKeys.merchantName)
-        let merchantCountryCode: String? = Self.getRequiredProperty(forSource: source, andKey: ConfigurationKeys.merchantCountryCode)
+        let merchantID = Self.getRequiredProperty(
+            ofType: String.self, forSource: source, andKey: ConfigurationKeys.merchantID
+        )
+        let merchantName = Self.getRequiredProperty(
+            ofType: String.self, forSource: source, andKey: ConfigurationKeys.merchantName
+        )
+        let merchantCountryCode = Self.getRequiredProperty(
+            ofType: String.self, forSource: source, andKey: ConfigurationKeys.merchantCountryCode
+        )
         
         // MARK: Payment Information
-        let paymentAllowedNetworks: [String]? = Self.getRequiredProperty(forSource: source, andKey: ConfigurationKeys.paymentAllowedNetworks)
-        let paymentSupportedCapabilities: [String]? = Self.getRequiredProperty(
-            forSource: source, andKey: ConfigurationKeys.paymentSupportedCapabilities
+        let paymentAllowedNetworks = Self.getRequiredProperty(
+            ofType: [String].self, forSource: source, andKey: ConfigurationKeys.paymentAllowedNetworks
         )
-        let paymentSupportedCardCountries: [String]? = Self.getProperty(forSource: source, andKey: ConfigurationKeys.paymentSupportedCardCountries)
+        let paymentSupportedCapabilities = Self.getRequiredProperty(
+            ofType: [String].self, forSource: source, andKey: ConfigurationKeys.paymentSupportedCapabilities
+        )
+        let paymentSupportedCardCountries = Self.getProperty(
+            ofType: [String].self, forSource: source, andKey: ConfigurationKeys.paymentSupportedCardCountries
+        )
         
         // MARK: Shipping Information
-        let shippingSupportedContacts: [String]? = Self.getProperty(forSource: source, andKey: ConfigurationKeys.shippingSupportedContacts)
+        let shippingSupportedContacts = Self.getProperty(
+            ofType: [String].self, forSource: source, andKey: ConfigurationKeys.shippingSupportedContacts
+        )
         
         // MARK: Billing Information
-        let billingSupportedContacts: [String]? = Self.getProperty(forSource: source, andKey: ConfigurationKeys.billingSupportedContacts)
-        
-        // MARK: Payment Service Provider Information
-        var gatewayModel: OSPMTGatewayModel?
-        if let providerGateway: [String: Any] = Self.getProperty(forSource: source, andKey: ConfigurationKeys.paymentGateway),
-            let providerGatewayName = providerGateway[ConfigurationKeys.paymentGatewayName] as? String,
-            let requestURL = providerGateway[ConfigurationKeys.paymentRequestURL] as? String {
-            let publishableKey = providerGateway[ConfigurationKeys.stripePublishableKey] as? String
-            gatewayModel = OSPMTGatewayModel(gateway: providerGatewayName, publishableKey: publishableKey, requestURL: requestURL)
-        }
+        let billingSupportedContacts = Self.getProperty(
+            ofType: [String].self, forSource: source, andKey: ConfigurationKeys.billingSupportedContacts
+        )
         
         self.init(
             merchantID: merchantID,
@@ -198,8 +142,7 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
             paymentSupportedCapabilities: paymentSupportedCapabilities,
             paymentSupportedCardCountries: paymentSupportedCardCountries,
             shippingSupportedContacts: shippingSupportedContacts,
-            billingSupportedContacts: billingSupportedContacts,
-            gatewayModel: gatewayModel
+            billingSupportedContacts: billingSupportedContacts
         )
     }
 }
@@ -211,7 +154,7 @@ private extension OSPMTApplePayConfiguration {
     ///   - key: Property key to search from.
     ///   - isRequired: Indicates if the property is mandatory or not.
     /// - Returns: The configuration property, if it exists.
-    static func getProperty<T: Collection>(forSource source: OSPMTConfiguration, andKey key: String, isRequired: Bool = false) -> T? {
+    static func getProperty<T: Collection>(ofType type: T.Type, forSource source: OSPMTConfiguration, andKey key: String, isRequired: Bool = false) -> T? {
         let result = source[key] as? T
         return !isRequired || result?.isEmpty == false ? result : nil
     }
@@ -221,8 +164,8 @@ private extension OSPMTApplePayConfiguration {
     ///   - type: Type of variable to return.
     ///   - key: Property key to search from.
     /// - Returns: The configuration property, if it exists.
-    static func getRequiredProperty<T: Collection>(forSource source: OSPMTConfiguration, andKey key: String) -> T? {
-        self.getProperty(forSource: source, andKey: key, isRequired: true)
+    static func getRequiredProperty<T: Collection>(ofType type: T.Type, forSource source: OSPMTConfiguration, andKey key: String) -> T? {
+        self.getProperty(ofType: type, forSource: source, andKey: key, isRequired: true)
     }
 }
 

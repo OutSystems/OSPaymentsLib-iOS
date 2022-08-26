@@ -4,11 +4,10 @@ struct OSPMTDataModel: Codable {
     let cardDetails: String
     let cardNetwork: String
     let tokenData: OSPMTTokenInfoModel
-    let paymentServiceProviderData: OSPMTServiceProviderInfoModel?
     
     /// Keys used to encode and decode the model.
     enum CodingKeys: String, CodingKey {
-        case billingInfo, cardDetails, cardNetwork, tokenData, paymentServiceProviderData
+        case billingInfo, cardDetails, cardNetwork, tokenData
     }
     
     /// Constructor method.
@@ -17,13 +16,11 @@ struct OSPMTDataModel: Codable {
     ///   - cardDetails: The last four digits of the card used for payment.
     ///   - cardNetwork: The network of the card used for payment.
     ///   - tokenData: The data of the token used for payment.
-    ///   - paymentServiceProviderData: Information related with the payment gateway process result. If can be `nil` if no Gateway was configured
-    init(billingInfo: OSPMTContactInfoModel? = nil, cardDetails: String, cardNetwork: String, tokenData: OSPMTTokenInfoModel, paymentServiceProviderData: OSPMTServiceProviderInfoModel? = nil) {
+    init(billingInfo: OSPMTContactInfoModel? = nil, cardDetails: String, cardNetwork: String, tokenData: OSPMTTokenInfoModel) {
         self.billingInfo = billingInfo
         self.cardDetails = cardDetails
         self.cardNetwork = cardNetwork
         self.tokenData = tokenData
-        self.paymentServiceProviderData = paymentServiceProviderData
     }
     
     /// Creates a new instance by decoding from the given decoder.
@@ -38,14 +35,7 @@ struct OSPMTDataModel: Codable {
         let cardDetails = try container.decode(String.self, forKey: .cardDetails)
         let cardNetwork = try container.decode(String.self, forKey: .cardNetwork)
         let tokenData = try container.decode(OSPMTTokenInfoModel.self, forKey: .tokenData)
-        let paymentServiceProviderData = try container.decodeIfPresent(OSPMTServiceProviderInfoModel.self, forKey: .paymentServiceProviderData)
-        self.init(
-            billingInfo: billingInfo,
-            cardDetails: cardDetails,
-            cardNetwork: cardNetwork,
-            tokenData: tokenData,
-            paymentServiceProviderData: paymentServiceProviderData
-        )
+        self.init(billingInfo: billingInfo, cardDetails: cardDetails, cardNetwork: cardNetwork, tokenData: tokenData)
     }
     
     /// Encodes this value into the given encoder.
@@ -63,7 +53,6 @@ struct OSPMTDataModel: Codable {
         try container.encode(cardDetails, forKey: .cardDetails)
         try container.encode(cardNetwork, forKey: .cardNetwork)
         try container.encode(tokenData, forKey: .tokenData)
-        try container.encodeIfPresent(paymentServiceProviderData, forKey: .paymentServiceProviderData)
     }
 }
 
@@ -82,6 +71,5 @@ extension OSPMTDataModel: Equatable {
         && lhs.cardDetails == rhs.cardDetails
         && lhs.cardNetwork == rhs.cardNetwork
         && lhs.tokenData == rhs.tokenData
-        && lhs.paymentServiceProviderData == rhs.paymentServiceProviderData
     }
 }

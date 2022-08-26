@@ -31,7 +31,7 @@ class OSPMTMockRequestBehaviour: OSPMTRequestDelegate {
         self.scopeModel = scopeModel
     }
     
-    func trigger(with detailsModel: OSPMTDetailsModel, and accessToken: String?, _ completion: @escaping OSPMTCompletionHandler) {
+    func trigger(with detailsModel: OSPMTDetailsModel, _ completion: @escaping OSPMTCompletionHandler) {
         if let error = self.error {
             completion(.failure(error))
         } else {
@@ -41,7 +41,7 @@ class OSPMTMockRequestBehaviour: OSPMTRequestDelegate {
 }
 
 class OSPMTApplePayHandlerSpec: QuickSpec {
-    override class func spec() {
+    override func spec() {
         var applePayHandler: OSPMTApplePayHandler!
         var mockAvailabilityBehaviour: OSPMTMockAvailabilityBehaviour!
         var mockRequestBehaviour: OSPMTMockRequestBehaviour!

@@ -13,17 +13,6 @@ protocol OSPMTHandlerDelegate: AnyObject {
     /// Sets Payment details and triggers its processing.
     /// - Parameters:
     ///   - detailsModel: payment details information.
-    ///   - accessToken: Authorisation token related with a full payment type.
     ///   - completion: an async closure that can return a successful Payment Scope Model or an error otherwise.
-    func set(_ detailsModel: OSPMTDetailsModel, and accessToken: String?, _ completion: @escaping OSPMTCompletionHandler)
-}
-
-extension OSPMTHandlerDelegate {
-    /// Sets Payment details and triggers its processing. It uses the default `set` method without the `accessToken` parameter.
-    /// - Parameters:
-    ///   - detailsModel: payment details information.
-    ///   - completion: an async closure that can return a successful Payment Scope Model or an error otherwise.
-    func set(_ detailsModel: OSPMTDetailsModel, _ completion: @escaping OSPMTCompletionHandler) {
-        self.set(detailsModel, and: nil, completion)
-    }
+    func set(_ detailsModel: OSPMTDetailsModel, completion: @escaping OSPMTCompletionHandler)
 }

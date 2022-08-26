@@ -47,7 +47,6 @@ struct OSPMTDetailsModel: Decodable {
     let status: OSPMTStatus
     let shippingContact: OSPMTContact
     let billingContact: OSPMTContact
-    let gateway: OSPMTGateway?
     
     /// Keys used to encode and decode the model.
     enum CodingKeys: String, CodingKey {
@@ -56,7 +55,6 @@ struct OSPMTDetailsModel: Decodable {
         case status
         case shippingContact = "shippingContacts"
         case billingContact = "billingContacts"
-        case gateway = "psp"
     }
     
     /// Constructor method.
@@ -66,14 +64,12 @@ struct OSPMTDetailsModel: Decodable {
     ///   - status: Final value status.
     ///   - shippingContact: Shipping properties required for filling.
     ///   - billingContact: Billiing properties required for filling.
-    ///   - gateway: Payment service provided to be used for processing, if passed.
-    init(amount: Decimal, currency: String, status: OSPMTStatus, shippingContact: OSPMTContact, billingContact: OSPMTContact, gateway: String? = nil) {
+    init(amount: Decimal, currency: String, status: OSPMTStatus, shippingContact: OSPMTContact, billingContact: OSPMTContact) {
         self.amount = amount
         self.currency = currency
         self.status = status
         self.shippingContact = shippingContact
         self.billingContact = billingContact
-        self.gateway = OSPMTGateway.convert(from: gateway)
     }
     
     /// Creates a new instance by decoding from the given decoder.
@@ -89,9 +85,8 @@ struct OSPMTDetailsModel: Decodable {
         let status = try container.decode(OSPMTStatus.self, forKey: .status)
         let shippingContact = try container.decode(OSPMTContact.self, forKey: .shippingContact)
         let billingContact = try container.decode(OSPMTContact.self, forKey: .billingContact)
-        let gateway = try container.decodeIfPresent(String.self, forKey: .gateway)
         self.init(
-            amount: amount, currency: currency, status: status, shippingContact: shippingContact, billingContact: billingContact, gateway: gateway
+            amount: amount, currency: currency, status: status, shippingContact: shippingContact, billingContact: billingContact
         )
     }
 }

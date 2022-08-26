@@ -1,7 +1,5 @@
-import Foundation
-
 /// Class that provides the bridge between the library and 3rd party consumers.
-public class OSPMTPayments: NSObject {
+class OSPMTPayments: NSObject {
     private weak var delegate: OSPMTCallbackDelegate?
     private let handler: OSPMTHandlerDelegate
     
@@ -18,7 +16,7 @@ public class OSPMTPayments: NSObject {
     /// - Parameters:
     ///   - delegate: Handles the asynchronous return calls.
     ///   - configurationSource: Configuration source, containing all values needed to configure.
-    public convenience init(applePayWithDelegate delegate: OSPMTCallbackDelegate, andConfiguration configurationSource: OSPMTConfiguration = Bundle.main.infoDictionary!) {
+    convenience init(applePayWithDelegate delegate: OSPMTCallbackDelegate, andConfiguration configurationSource: OSPMTConfiguration = Bundle.main.infoDictionary!) {
         let applePayHandler = OSPMTApplePayHandler(configurationSource: configurationSource)
         self.init(delegate: delegate, handler: applePayHandler)
     }
@@ -27,7 +25,7 @@ public class OSPMTPayments: NSObject {
 // MARK: - Action Methods to be called by Bridge
 extension OSPMTPayments: OSPMTActionDelegate {
     /// Sets up the payment configuration.
-    public func setupConfiguration() {
+    func setupConfiguration() {
         let result = self.handler.setupConfiguration()
         
         switch result {
@@ -39,7 +37,7 @@ extension OSPMTPayments: OSPMTActionDelegate {
     }
     
     /// Verifies the device is ready to process a payment, considering the configuration provided before.
-    public func checkWalletSetup() {
+    func checkWalletSetup() {
         if let error = self.handler.checkWalletAvailability() {
             self.delegate?.callback(error: error)
         } else {
@@ -47,15 +45,13 @@ extension OSPMTPayments: OSPMTActionDelegate {
         }
     }
     
-    /// Sets payment details and triggers the request process.
-    /// - Parameters:
-    ///   - details: Payment details model serialized into a text field.
-    ///   - accessToken: Authorisation token related with a full payment type.
-    public func set(_ details: String, and accessToken: String?) {
+    /// Sets payment details and triggers the request proccess.
+    /// - Parameter details: Payment details model serialized into a text field.
+    func set(_ details: String) {
         let detailsResult = self.decode(details)
         switch detailsResult {
         case .success(let detailsModel):
-            self.handler.set(detailsModel, and: accessToken) { [weak self] result in
+            self.handler.set(detailsModel) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let scopeModel):

@@ -45,7 +45,7 @@ class OSPMTDataModelSpec: QuickSpec {
         )
     }
     
-    override class func spec() {
+    override func spec() {
         describe("Given a full configuration") {
             context("When decoding the Data Model") {
                 it("Should return a filled object") {

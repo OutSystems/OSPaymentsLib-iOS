@@ -6,8 +6,8 @@ target 'OSPaymentsLib' do
   # Pods for OSPaymentsLib
 
   target 'OSPaymentsLibTests' do
-    pod 'Quick', '5.0.1'
-    pod 'Nimble', '10.0.0'
+    pod 'Quick', '~> 5.0.1'
+    pod 'Nimble', '~> 10.0.0'
   end
 
 end

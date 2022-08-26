@@ -25,7 +25,7 @@ class MockSetupAvailableBehaviour: OSPMTApplePaySetupAvailabilityDelegate {
 }
 
 class OSPMTApplePayAvailabilityBehaviourSpec: QuickSpec {
-    override class func spec() {
+    override func spec() {
         var applePayAvailabilityBehaviour: OSPMTApplePayAvailabilityBehaviour!
         
         let mockConfiguration = OSPMTApplePayConfiguration(source: OSPMTTestConfigurations.validNetworkCapabilityConfig)

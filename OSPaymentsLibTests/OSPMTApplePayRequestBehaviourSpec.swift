@@ -25,7 +25,7 @@ class MockRequestTriggerBehaviour: OSPMTApplePayRequestTriggerDelegate {
 }
 
 class OSPMTApplePayRequestBehaviourSpec: QuickSpec {
-    override class func spec() {
+    override func spec() {
         var applePayRequestBehaviour: OSPMTApplePayRequestBehaviour!
         
         var mockConfiguration: OSPMTApplePayConfiguration!

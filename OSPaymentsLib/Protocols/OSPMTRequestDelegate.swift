@@ -25,19 +25,8 @@ protocol OSPMTRequestDelegate: AnyObject {
     /// Sets Payment details and triggers its processing.
     /// - Parameters:
     ///   - detailsModel: payment details information.
-    ///   - accessToken: Authorisation token related with a full payment type.
     ///   - completion: an async closure that can return a successful Payment Scope Model or an error otherwise.
-    func trigger(with detailsModel: OSPMTDetailsModel, and accessToken: String?, _ completion: @escaping OSPMTCompletionHandler)
-}
-
-extension OSPMTRequestDelegate {
-    /// Sets Payment details and triggers its processing. It uses the default method without the `accessToken` parameter.
-    /// - Parameters:
-    ///   - detailsModel: payment details information.
-    ///   - completion: an async closure that can return a successful Payment Scope Model or an error otherwise.
-    func trigger(with detailsModel: OSPMTDetailsModel, _ completion: @escaping OSPMTCompletionHandler) {
-        self.trigger(with: detailsModel, and: nil, completion)
-    }
+    func trigger(with detailsModel: OSPMTDetailsModel, _ completion: @escaping OSPMTCompletionHandler)
 }
 
 /// Class that implements the `OSPMTRequestDelegate` for Apple Pay, providing it the required that details to work.
@@ -47,8 +36,6 @@ class OSPMTApplePayRequestBehaviour: NSObject, OSPMTRequestDelegate {
     
     var paymentStatus: PKPaymentAuthorizationStatus = .failure
     var paymentScope: OSPMTScopeModel?
-    var paymentDetails: OSPMTDetailsModel?
-    var accessToken: String?
     var completionHandler: OSPMTCompletionHandler!
     
     /// Constructor method.
@@ -60,14 +47,7 @@ class OSPMTApplePayRequestBehaviour: NSObject, OSPMTRequestDelegate {
         self.requestTriggerType = requestTriggerType
     }
     
-    /// Sets Payment details and triggers its processing.
-    /// - Parameters:
-    ///   - detailsModel: payment details information.
-    ///   - accessToken: Authorisation token related with a full payment type.
-    ///   - completion: an async closure that can return a successful Payment Scope Model or an error otherwise.
-    func trigger(with detailsModel: OSPMTDetailsModel, and accessToken: String?, _ completion: @escaping OSPMTCompletionHandler) {
-        self.paymentDetails = detailsModel
-        self.accessToken = accessToken
+    func trigger(with detailsModel: OSPMTDetailsModel, _ completion: @escaping OSPMTCompletionHandler) {
         self.completionHandler = completion
         
         let result = self.requestTriggerType.createRequestTriggerBehaviour(for: detailsModel, andDelegate: self)
@@ -110,6 +90,8 @@ extension OSPMTApplePayRequestBehaviour {
 
 // MARK: - Set up PKPaymentAuthorizationControllerDelegate conformance
 extension OSPMTApplePayRequestBehaviour: PKPaymentAuthorizationControllerDelegate {
+    /// Tells the delegate that payment authorization finished.
+    /// - Parameter controller: The payment authorization view controller.
     func paymentAuthorizationControllerDidFinish(_ controller: PKPaymentAuthorizationController) {
         controller.dismiss()
         // The payment sheet doesn't automatically dismiss once it has finished. Dismiss the payment sheet.
@@ -122,53 +104,20 @@ extension OSPMTApplePayRequestBehaviour: PKPaymentAuthorizationControllerDelegat
         }
     }
     
+    /// Tells the delegate that the user authorized the payment request, and asks for a result.
+    /// - Parameters:
+    ///   - controller: The payment authorization view controller.
+    ///   - payment: The authorized payment. This object contains the payment token you need to submit to your payment processor, as well as the billing and shipping information required by the payment request.
+    ///   - completion: The completion handler to call with the result of authorizing the payment.
     func paymentAuthorizationController(_ controller: PKPaymentAuthorizationController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-        func setPaymentResults(with errorArray: [OSPMTError], and scopeModel: OSPMTScopeModel?, _ completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-            if errorArray.isEmpty, let scopeModel = scopeModel {
-                self.paymentScope = scopeModel
-                self.paymentStatus = .success
-            } else {
-                self.paymentScope = nil
-                self.paymentStatus = .failure
-            }
-            
-            completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: errorArray))
+        if let scopeModel = payment.createScopeModel() {
+            self.paymentScope = scopeModel
+            self.paymentStatus = .success
+        } else {
+            self.paymentScope = nil
+            self.paymentStatus = .failure
         }
         
-        if let paymentDetails = paymentDetails, paymentDetails.gateway != nil {
-            guard let accessToken = self.accessToken, !accessToken.isEmpty else {
-                return completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: [OSPMTError.tokenIssue]))
-            }
-            
-            guard let paymentGateway = self.configuration.gatewayModel, paymentGateway.gatewayEnum == paymentDetails.gateway else {
-                return completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: [OSPMTError.gatewayNotConfigured]))
-            }
-            
-            guard let gatewayWrapper = OSPMTGatewayFactory.createWrapper(for: paymentGateway) else {
-                return completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: [OSPMTError.gatewaySetFailed]))
-            }
-            
-            gatewayWrapper.process(payment, with: paymentDetails, and: accessToken) { result in
-                var errorArray = [OSPMTError]()
-                var paymentResultModel: OSPMTServiceProviderInfoModel?
-                
-                switch result {
-                case .success(let result):
-                    paymentResultModel = result
-                case .failure(let error):
-                    errorArray += [error]
-                }
-                
-                setPaymentResults(with: errorArray, and: payment.createScopeModel(for: paymentResultModel), completion)
-            }
-        } else {
-            setPaymentResults(with: [], and: payment.createScopeModel(), completion)
-        }
+        completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: []))
     }
-    
-    /**
-     Despite the need to implement the method, this is not required by app's functionality.
-     For that reason, we're returning `nil` as the presentation window.
-     */
-    func presentationWindow(for controller: PKPaymentAuthorizationController) -> UIWindow? { nil }
 }

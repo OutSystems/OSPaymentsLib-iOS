@@ -80,7 +80,7 @@ class OSPMTAddressModelSpec: QuickSpec {
         )
     }
     
-    override class func spec() {
+    override func spec() {
         describe("Given a full configuration") {
             context("When decoding the Address Model") {
                 it("Should return a filled object") {
