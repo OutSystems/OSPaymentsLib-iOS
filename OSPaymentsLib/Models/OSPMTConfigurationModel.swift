@@ -81,7 +81,7 @@ class OSPMTConfigurationModel: Encodable {
     }
 }
 
-typealias OSPMTConfiguration = [String: Any]
+public typealias OSPMTConfiguration = [String: Any]
 
 /// Manages all configuration properties required to enable Apple Pay in the plugin.
 class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
