@@ -1,5 +1,19 @@
 import PassKit
 
+struct OSPMTTokenizationModel: Encodable {
+    let gateway: String
+    
+    enum CodingKeys: String, CodingKey {
+        case gateway
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(gateway, forKey: .gateway)
+    }
+}
+
 /// Protocol that contains all properties needed to configure a payment service.
 class OSPMTConfigurationModel: Encodable {
     // MARK: Merchant Information
@@ -18,6 +32,9 @@ class OSPMTConfigurationModel: Encodable {
     // MARK: Billing Information
     var billingSupportedContacts: [String]?
     
+    // MARK: Payment Service Provider Information
+    var tokenization: OSPMTTokenizationModel?
+    
     /// Keys used to encode and decode the model.
     enum CodingKeys: String, CodingKey {
         case merchantID
@@ -28,6 +45,7 @@ class OSPMTConfigurationModel: Encodable {
         case paymentSupportedCardCountries
         case shippingSupportedContacts
         case billingSupportedContacts
+        case tokenization
     }
     
     /// Constructor method.
@@ -40,7 +58,17 @@ class OSPMTConfigurationModel: Encodable {
     ///   - paymentSupportedCardCountries: Payment Support Card Countries configured
     ///   - shippingSupportedContacts: Shipping Supported Contacts configured
     ///   - billingSupportedContacts: Billing Supported Contacts configured
-    init(merchantID: String?, merchantName: String?, merchantCountryCode: String?, paymentAllowedNetworks: [String]?, paymentSupportedCapabilities: [String]?, paymentSupportedCardCountries: [String]?, shippingSupportedContacts: [String]?, billingSupportedContacts: [String]?) {
+    init(
+        merchantID: String?,
+        merchantName: String?,
+        merchantCountryCode: String?,
+        paymentAllowedNetworks: [String]?,
+        paymentSupportedCapabilities: [String]?,
+        paymentSupportedCardCountries: [String]?,
+        shippingSupportedContacts: [String]?,
+        billingSupportedContacts: [String]?,
+        tokenization: OSPMTTokenizationModel?
+    ) {
         self.merchantID = merchantID
         self.merchantName = merchantName
         self.merchantCountryCode = merchantCountryCode
@@ -49,6 +77,7 @@ class OSPMTConfigurationModel: Encodable {
         self.paymentSupportedCardCountries = paymentSupportedCardCountries
         self.shippingSupportedContacts = shippingSupportedContacts
         self.billingSupportedContacts = billingSupportedContacts
+        self.tokenization = tokenization
     }
     
     /// Encodes this value into the given encoder.
@@ -78,6 +107,9 @@ class OSPMTConfigurationModel: Encodable {
         
         // MARK: Billing Information
         try container.encodeIfPresent(billingSupportedContacts, forKey: .billingSupportedContacts)
+        
+        // MARK: Payment Service Provider Information
+        try container.encodeIfPresent(tokenization, forKey: .tokenization)
     }
 }
 
@@ -97,6 +129,8 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
         static let shippingSupportedContacts = "ApplePayShippingSupportedContacts"
         
         static let billingSupportedContacts = "ApplePayBillingSupportedContacts"
+        
+        static let paymentServiceProvider = "ApplePayPaymentServiceProvider"
     }
     
     /// Constructor method.
@@ -120,6 +154,12 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
         // MARK: Billing Information
         let billingSupportedContacts: [String]? = Self.getProperty(forSource: source, andKey: ConfigurationKeys.billingSupportedContacts)
         
+        // MARK: Payment Service Provider Information
+        var tokenizationModel: OSPMTTokenizationModel?
+        if let providerGateway: String = Self.getProperty(forSource: source, andKey: ConfigurationKeys.paymentServiceProvider) {
+            tokenizationModel = OSPMTTokenizationModel(gateway: providerGateway)
+        }
+        
         self.init(
             merchantID: merchantID,
             merchantName: merchantName,
@@ -128,7 +168,8 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
             paymentSupportedCapabilities: paymentSupportedCapabilities,
             paymentSupportedCardCountries: paymentSupportedCardCountries,
             shippingSupportedContacts: shippingSupportedContacts,
-            billingSupportedContacts: billingSupportedContacts
+            billingSupportedContacts: billingSupportedContacts,
+            tokenization: tokenizationModel
         )
     }
 }
@@ -180,5 +221,11 @@ extension OSPMTApplePayConfiguration {
     var supportedCountries: Set<String>? {
         guard let paymentSupportedCardCountries = self.paymentSupportedCardCountries, !paymentSupportedCardCountries.isEmpty else { return nil }
         return Set(paymentSupportedCardCountries)
+    }
+    
+    var paymentServiceProvider: OSPMTGateway? {
+        guard let tokenization = self.tokenization else { return nil }
+        return OSPMTGateway.convert(from: tokenization.gateway)
+        
     }
 }

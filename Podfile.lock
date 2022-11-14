@@ -1,20 +1,31 @@
 PODS:
   - Nimble (10.0.0)
   - Quick (5.0.1)
+  - StripeCore (23.1.1)
+  - StripePayments (23.1.1):
+    - StripeCore (= 23.1.1)
+    - StripePayments/Stripe3DS2 (= 23.1.1)
+  - StripePayments/Stripe3DS2 (23.1.1):
+    - StripeCore (= 23.1.1)
 
 DEPENDENCIES:
   - Nimble (~> 10.0.0)
   - Quick (~> 5.0.1)
+  - StripePayments (~> 23.1.1)
 
 SPEC REPOS:
   trunk:
     - Nimble
     - Quick
+    - StripeCore
+    - StripePayments
 
 SPEC CHECKSUMS:
   Nimble: 5316ef81a170ce87baf72dd961f22f89a602ff84
   Quick: 749aa754fd1e7d984f2000fe051e18a3a9809179
+  StripeCore: 6318dff8f7e42125c6e8b671ac54a6e82804705a
+  StripePayments: 7e903765860f1cc914041069edc9cf5e202f5ef7
 
-PODFILE CHECKSUM: 1dd1a31673f4cf5f75ac55de69a3a3854ab3533b
+PODFILE CHECKSUM: 3e24fa9ee844004daca200d4e9f2ab6d30133bdd
 
 COCOAPODS: 1.11.3

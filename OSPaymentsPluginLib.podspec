@@ -18,5 +18,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '13.0'
   s.swift_versions = '5.0'
 
-  s.source_files = 'OSPaymentsLib/**/*.swift'
+  s.source_files = 'OSPaymentsLib/Error/*.swift', 'OSPaymentsLib/Extensions/*.swift', 'OSPaymentsLib/Gateway/Protocols/*.swift', 'OSPaymentsLib/Gateway/Enums/*.swift', 'OSPaymentsLib/Gateway/FactoryMethod/*.swift', 'OSPaymentsLib/Models/*.swift', 'OSPaymentsLib/Protocols/*.swift', 'OSPaymentsLib/*.swift' 
 end

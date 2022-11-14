@@ -30,6 +30,7 @@
 		75760F7F289C1BF9001BDCEC /* OSPMTDataModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75760F7E289C1BF9001BDCEC /* OSPMTDataModelSpec.swift */; };
 		75760F81289C1DF3001BDCEC /* OSPMTScopeModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75760F80289C1DF3001BDCEC /* OSPMTScopeModelSpec.swift */; };
 		75760F83289C1F99001BDCEC /* PKPayment+Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75760F82289C1F99001BDCEC /* PKPayment+Adapter.swift */; };
+		75E4B66C2923A65F00E7B1F1 /* OSPMTAdyenWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E4B66B2923A65F00E7B1F1 /* OSPMTAdyenWrapper.swift */; };
 		75E4DCB12897C8AD002277FD /* OSPMTPaymentsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E4DCB02897C8AD002277FD /* OSPMTPaymentsSpec.swift */; };
 		75EC4D122893FC3C00CF50E2 /* OSPMTPayments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EC4D112893FC3C00CF50E2 /* OSPMTPayments.swift */; };
 		75EC4D152894143A00CF50E2 /* OSPMTCallbackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EC4D142894143A00CF50E2 /* OSPMTCallbackDelegate.swift */; };
@@ -40,6 +41,10 @@
 		75EC4D2228942C3800CF50E2 /* OSPMTConfigurationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EC4D2128942C3800CF50E2 /* OSPMTConfigurationModel.swift */; };
 		75EC4D242894449700CF50E2 /* OSPMTApplePayHandlerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EC4D232894449700CF50E2 /* OSPMTApplePayHandlerSpec.swift */; };
 		75EC4D262894478200CF50E2 /* OSPMTTestConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EC4D252894478200CF50E2 /* OSPMTTestConfigurations.swift */; };
+		75EFCB462922600800F315B1 /* OSPMTGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EFCB452922600800F315B1 /* OSPMTGateway.swift */; };
+		75EFCB49292269BA00F315B1 /* OSPMTGatewayFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EFCB48292269BA00F315B1 /* OSPMTGatewayFactory.swift */; };
+		75EFCB4B29226A0A00F315B1 /* OSPMTGatewayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EFCB4A29226A0A00F315B1 /* OSPMTGatewayDelegate.swift */; };
+		75EFCB4F29226A8A00F315B1 /* OSPMTStripeWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EFCB4E29226A8A00F315B1 /* OSPMTStripeWrapper.swift */; };
 		7E9C30CBBF9DFE5A747787FF /* Pods_OSPaymentsLib_OSPaymentsLibTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6BD4033DE465D38CA50CA9E /* Pods_OSPaymentsLib_OSPaymentsLibTests.framework */; };
 		8DB1869BE6C7A0D7D44D4C34 /* Pods_OSPaymentsLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BADB3E4C7C4507E01CF0631B /* Pods_OSPaymentsLib.framework */; };
 /* End PBXBuildFile section */
@@ -82,6 +87,7 @@
 		75760F7E289C1BF9001BDCEC /* OSPMTDataModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTDataModelSpec.swift; sourceTree = "<group>"; };
 		75760F80289C1DF3001BDCEC /* OSPMTScopeModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTScopeModelSpec.swift; sourceTree = "<group>"; };
 		75760F82289C1F99001BDCEC /* PKPayment+Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKPayment+Adapter.swift"; sourceTree = "<group>"; };
+		75E4B66B2923A65F00E7B1F1 /* OSPMTAdyenWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTAdyenWrapper.swift; sourceTree = "<group>"; };
 		75E4DCB02897C8AD002277FD /* OSPMTPaymentsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTPaymentsSpec.swift; sourceTree = "<group>"; };
 		75EC4D112893FC3C00CF50E2 /* OSPMTPayments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTPayments.swift; sourceTree = "<group>"; };
 		75EC4D142894143A00CF50E2 /* OSPMTCallbackDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTCallbackDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +98,10 @@
 		75EC4D2128942C3800CF50E2 /* OSPMTConfigurationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTConfigurationModel.swift; sourceTree = "<group>"; };
 		75EC4D232894449700CF50E2 /* OSPMTApplePayHandlerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTApplePayHandlerSpec.swift; sourceTree = "<group>"; };
 		75EC4D252894478200CF50E2 /* OSPMTTestConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTTestConfigurations.swift; sourceTree = "<group>"; };
+		75EFCB452922600800F315B1 /* OSPMTGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTGateway.swift; sourceTree = "<group>"; };
+		75EFCB48292269BA00F315B1 /* OSPMTGatewayFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTGatewayFactory.swift; sourceTree = "<group>"; };
+		75EFCB4A29226A0A00F315B1 /* OSPMTGatewayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTGatewayDelegate.swift; sourceTree = "<group>"; };
+		75EFCB4E29226A8A00F315B1 /* OSPMTStripeWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTStripeWrapper.swift; sourceTree = "<group>"; };
 		8CDB829B99BC8A28609750EF /* Pods-OSPaymentsLib-OSPaymentsLibTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OSPaymentsLib-OSPaymentsLibTests.debug.xcconfig"; path = "Target Support Files/Pods-OSPaymentsLib-OSPaymentsLibTests/Pods-OSPaymentsLib-OSPaymentsLibTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BADB3E4C7C4507E01CF0631B /* Pods_OSPaymentsLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OSPaymentsLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BD4033DE465D38CA50CA9E /* Pods_OSPaymentsLib_OSPaymentsLibTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OSPaymentsLib_OSPaymentsLibTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +164,7 @@
 			children = (
 				75EC4D182894155D00CF50E2 /* Error */,
 				7509DC7528993C26005BA0D4 /* Extensions */,
+				75EFCB4C29226A5D00F315B1 /* Gateway */,
 				755A8052289BC8EE00426EAA /* Models */,
 				75EC4D132894142000CF50E2 /* Protocols */,
 				75EC4D1D289416B600CF50E2 /* OSPMTApplePayHandler.swift */,
@@ -233,6 +244,42 @@
 				75EC4D192894156E00CF50E2 /* OSPMTError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		75EFCB4429225FF100F315B1 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				75EFCB452922600800F315B1 /* OSPMTGateway.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		75EFCB47292269A100F315B1 /* FactoryMethod */ = {
+			isa = PBXGroup;
+			children = (
+				75EFCB48292269BA00F315B1 /* OSPMTGatewayFactory.swift */,
+			);
+			path = FactoryMethod;
+			sourceTree = "<group>";
+		};
+		75EFCB4C29226A5D00F315B1 /* Gateway */ = {
+			isa = PBXGroup;
+			children = (
+				75EFCB4D29226A7600F315B1 /* Protocols */,
+				75EFCB4429225FF100F315B1 /* Enums */,
+				75EFCB47292269A100F315B1 /* FactoryMethod */,
+				75E4B66B2923A65F00E7B1F1 /* OSPMTAdyenWrapper.swift */,
+				75EFCB4E29226A8A00F315B1 /* OSPMTStripeWrapper.swift */,
+			);
+			path = Gateway;
+			sourceTree = "<group>";
+		};
+		75EFCB4D29226A7600F315B1 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				75EFCB4A29226A0A00F315B1 /* OSPMTGatewayDelegate.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		F0654FC64B2A887C3DD3CDAD /* Frameworks */ = {
@@ -441,6 +488,7 @@
 			files = (
 				7509DC7D28995A07005BA0D4 /* OSPMTAvailabilityDelegate.swift in Sources */,
 				75EC4D1A2894156E00CF50E2 /* OSPMTError.swift in Sources */,
+				75EFCB49292269BA00F315B1 /* OSPMTGatewayFactory.swift in Sources */,
 				755A8056289BC8EE00426EAA /* OSPMTScopeModel.swift in Sources */,
 				7509DC7728993C4C005BA0D4 /* PKMerchantCapability+Adapter.swift in Sources */,
 				755A8055289BC8EE00426EAA /* OSPMTDetailsModel.swift in Sources */,
@@ -450,16 +498,20 @@
 				75EC4D172894150F00CF50E2 /* OSPMTHandlerDelegate.swift in Sources */,
 				755A8058289BC90A00426EAA /* OSPMTRequestDelegate.swift in Sources */,
 				755A8062289BD56300426EAA /* OSPMTAddressModel.swift in Sources */,
+				75EFCB4F29226A8A00F315B1 /* OSPMTStripeWrapper.swift in Sources */,
 				755A8060289BD54E00426EAA /* OSPMTDataModel.swift in Sources */,
 				755A804D289BBAB300426EAA /* PKPaymentAuthorizationController+Adapter.swift in Sources */,
 				75EC4D1E289416B600CF50E2 /* OSPMTApplePayHandler.swift in Sources */,
 				7509DC81289967A6005BA0D4 /* PKPaymentNetwork+Adapter.swift in Sources */,
+				75EFCB462922600800F315B1 /* OSPMTGateway.swift in Sources */,
 				755A8064289BD58900426EAA /* OSPMTContactInfoModel.swift in Sources */,
 				75EC4D152894143A00CF50E2 /* OSPMTCallbackDelegate.swift in Sources */,
 				755A805E289BD53000426EAA /* OSPMTTokenInfoModel.swift in Sources */,
 				75EC4D1C2894160400CF50E2 /* OSPMTActionDelegate.swift in Sources */,
+				75EFCB4B29226A0A00F315B1 /* OSPMTGatewayDelegate.swift in Sources */,
 				755A805A289BC92A00426EAA /* PKContactField+Adapter.swift in Sources */,
 				75EC4D122893FC3C00CF50E2 /* OSPMTPayments.swift in Sources */,
+				75E4B66C2923A65F00E7B1F1 /* OSPMTAdyenWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,6 +690,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.outsystems.rd.payments.OSPaymentsLib;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -671,6 +724,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.outsystems.rd.payments.OSPaymentsLib;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

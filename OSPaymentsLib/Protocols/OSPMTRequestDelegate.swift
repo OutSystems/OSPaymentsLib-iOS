@@ -36,6 +36,7 @@ class OSPMTApplePayRequestBehaviour: NSObject, OSPMTRequestDelegate {
     
     var paymentStatus: PKPaymentAuthorizationStatus = .failure
     var paymentScope: OSPMTScopeModel?
+    var paymentDetails: OSPMTDetailsModel?
     var completionHandler: OSPMTCompletionHandler!
     
     /// Constructor method.
@@ -49,6 +50,7 @@ class OSPMTApplePayRequestBehaviour: NSObject, OSPMTRequestDelegate {
     
     func trigger(with detailsModel: OSPMTDetailsModel, _ completion: @escaping OSPMTCompletionHandler) {
         self.completionHandler = completion
+        self.paymentDetails = detailsModel
         
         let result = self.requestTriggerType.createRequestTriggerBehaviour(for: detailsModel, andDelegate: self)
         switch result {
@@ -110,14 +112,40 @@ extension OSPMTApplePayRequestBehaviour: PKPaymentAuthorizationControllerDelegat
     ///   - payment: The authorized payment. This object contains the payment token you need to submit to your payment processor, as well as the billing and shipping information required by the payment request.
     ///   - completion: The completion handler to call with the result of authorizing the payment.
     func paymentAuthorizationController(_ controller: PKPaymentAuthorizationController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-        if let scopeModel = payment.createScopeModel() {
-            self.paymentScope = scopeModel
-            self.paymentStatus = .success
+        if let paymentGateway = self.configuration.paymentServiceProvider,
+            let paymentDetails = self.paymentDetails,
+            let gatewayWrapper = OSPMTGatewayFactory.createWrapper() {
+            gatewayWrapper.process(payment, with: paymentDetails) { [weak self] result in
+                guard let self = self else { return }
+                var errorArray = [OSPMTError]()
+                
+                switch result {
+                case .success:  // nothing to do
+                    break
+                case .failure(let error):
+                    errorArray += [error]
+                }
+                
+                if errorArray.isEmpty, let scopeModel = payment.createScopeModel(for: paymentGateway) {
+                    self.paymentScope = scopeModel
+                    self.paymentStatus = .success
+                } else {
+                    self.paymentScope = nil
+                    self.paymentStatus = .failure
+                }
+                
+                completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: errorArray))
+            }
         } else {
-            self.paymentScope = nil
-            self.paymentStatus = .failure
+            if let scopeModel = payment.createScopeModel() {
+                self.paymentScope = scopeModel
+                self.paymentStatus = .success
+            } else {
+                self.paymentScope = nil
+                self.paymentStatus = .failure
+            }
+            
+            completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: []))
         }
-        
-        completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: []))
     }
 }
