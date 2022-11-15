@@ -81,7 +81,7 @@ class OSPMTConfigurationModel: Encodable {
     }
 }
 
-typealias OSPMTConfiguration = [String: Any]
+public typealias OSPMTConfiguration = [String: Any]
 
 /// Manages all configuration properties required to enable Apple Pay in the plugin.
 class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
@@ -103,36 +103,22 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
     /// - Parameter source: Source class contaning the configuration.
     convenience init(source: OSPMTConfiguration) {
         // MARK: Merchant Information
-        let merchantID = Self.getRequiredProperty(
-            ofType: String.self, forSource: source, andKey: ConfigurationKeys.merchantID
-        )
-        let merchantName = Self.getRequiredProperty(
-            ofType: String.self, forSource: source, andKey: ConfigurationKeys.merchantName
-        )
-        let merchantCountryCode = Self.getRequiredProperty(
-            ofType: String.self, forSource: source, andKey: ConfigurationKeys.merchantCountryCode
-        )
+        let merchantID: String? = Self.getRequiredProperty(forSource: source, andKey: ConfigurationKeys.merchantID)
+        let merchantName: String? = Self.getRequiredProperty(forSource: source, andKey: ConfigurationKeys.merchantName)
+        let merchantCountryCode: String? = Self.getRequiredProperty(forSource: source, andKey: ConfigurationKeys.merchantCountryCode)
         
         // MARK: Payment Information
-        let paymentAllowedNetworks = Self.getRequiredProperty(
-            ofType: [String].self, forSource: source, andKey: ConfigurationKeys.paymentAllowedNetworks
+        let paymentAllowedNetworks: [String]? = Self.getRequiredProperty(forSource: source, andKey: ConfigurationKeys.paymentAllowedNetworks)
+        let paymentSupportedCapabilities: [String]? = Self.getRequiredProperty(
+            forSource: source, andKey: ConfigurationKeys.paymentSupportedCapabilities
         )
-        let paymentSupportedCapabilities = Self.getRequiredProperty(
-            ofType: [String].self, forSource: source, andKey: ConfigurationKeys.paymentSupportedCapabilities
-        )
-        let paymentSupportedCardCountries = Self.getProperty(
-            ofType: [String].self, forSource: source, andKey: ConfigurationKeys.paymentSupportedCardCountries
-        )
+        let paymentSupportedCardCountries: [String]? = Self.getProperty(forSource: source, andKey: ConfigurationKeys.paymentSupportedCardCountries)
         
         // MARK: Shipping Information
-        let shippingSupportedContacts = Self.getProperty(
-            ofType: [String].self, forSource: source, andKey: ConfigurationKeys.shippingSupportedContacts
-        )
+        let shippingSupportedContacts: [String]? = Self.getProperty(forSource: source, andKey: ConfigurationKeys.shippingSupportedContacts)
         
         // MARK: Billing Information
-        let billingSupportedContacts = Self.getProperty(
-            ofType: [String].self, forSource: source, andKey: ConfigurationKeys.billingSupportedContacts
-        )
+        let billingSupportedContacts: [String]? = Self.getProperty(forSource: source, andKey: ConfigurationKeys.billingSupportedContacts)
         
         self.init(
             merchantID: merchantID,
@@ -154,7 +140,7 @@ private extension OSPMTApplePayConfiguration {
     ///   - key: Property key to search from.
     ///   - isRequired: Indicates if the property is mandatory or not.
     /// - Returns: The configuration property, if it exists.
-    static func getProperty<T: Collection>(ofType type: T.Type, forSource source: OSPMTConfiguration, andKey key: String, isRequired: Bool = false) -> T? {
+    static func getProperty<T: Collection>(forSource source: OSPMTConfiguration, andKey key: String, isRequired: Bool = false) -> T? {
         let result = source[key] as? T
         return !isRequired || result?.isEmpty == false ? result : nil
     }
@@ -164,8 +150,8 @@ private extension OSPMTApplePayConfiguration {
     ///   - type: Type of variable to return.
     ///   - key: Property key to search from.
     /// - Returns: The configuration property, if it exists.
-    static func getRequiredProperty<T: Collection>(ofType type: T.Type, forSource source: OSPMTConfiguration, andKey key: String) -> T? {
-        self.getProperty(ofType: type, forSource: source, andKey: key, isRequired: true)
+    static func getRequiredProperty<T: Collection>(forSource source: OSPMTConfiguration, andKey key: String) -> T? {
+        self.getProperty(forSource: source, andKey: key, isRequired: true)
     }
 }
 
