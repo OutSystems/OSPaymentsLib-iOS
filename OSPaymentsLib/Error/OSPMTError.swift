@@ -1,5 +1,7 @@
+import Foundation
+
 /// All plugin errors that can be thrown
-enum OSPMTError: Int, CustomNSError, LocalizedError {
+public enum OSPMTError: Int, CustomNSError, LocalizedError {
     case invalidConfiguration = 1
     case walletNotAvailable = 3
     case paymentNotAvailable = 5
@@ -10,7 +12,7 @@ enum OSPMTError: Int, CustomNSError, LocalizedError {
     case paymentCancelled = 11
     
     /// Textual description
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         case .invalidConfiguration:
             return "Couldn't obtain the payment's informations from the configurations file."
