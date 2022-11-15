@@ -1,5 +1,5 @@
 /// Delegate for the callback return calls for the plugin
-protocol OSPMTCallbackDelegate: AnyObject {
+public protocol OSPMTCallbackDelegate: AnyObject {
     func callback(result: String?, error: OSPMTError?)
 }
 

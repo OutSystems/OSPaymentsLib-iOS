@@ -1,5 +1,5 @@
 /// Protocol that provides the server actions the plugin provides.
-protocol OSPMTActionDelegate: AnyObject {
+public protocol OSPMTActionDelegate: AnyObject {
     /// Sets up the payment configuration.
     func setupConfiguration()
     
