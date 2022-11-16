@@ -72,11 +72,10 @@ The method's success is returned through a `OSPMTCallbackDelegate` call. Success
 ### Set Details and Trigger Payment
 
 ```swift
-func set(_ details: String, and: accessToken: String?)
+func set(_ details: String)
 ```
 
 Sets payment details and triggers the request proccess. The method contains the following parameter:
 - `details`: Payment details model serialized into a text field. This model can be checked in the `OSPMTDetailsModel` structure.
-- `accessToken`: Authorisation token related with a full payment type. Can be empty, which should be the case for custom payments.
 
 The method's success is returned through a `OSPMTCallbackDelegate` call. Success operations returns an object of the structure type `OSPMTScopeModel`, encoded in a UTF-8 string. An `OSPMTError` error is returned in case of error.

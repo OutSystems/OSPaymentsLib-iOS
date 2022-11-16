@@ -1,43 +1,6 @@
 import PassKit
 
-/// Model that manages the Payment Service Provider's configuration.
-struct OSPMTGatewayModel: Encodable {
-    let gateway: String
-    let publishableKey: String?
-    let requestURL: String
-    
-    /// Keys used to encode and decode the model.
-    enum CodingKeys: String, CodingKey {
-        case gateway
-        case publishableKey
-        case requestURL
-    }
-    
-    /// Encodes this value into the given encoder.
-    ///
-    /// If the value fails to encode anything, `encoder` will encode an empty
-    /// keyed container in its place.
-    ///
-    /// This function throws an error if any values are invalid for the given
-    /// encoder's format.
-    ///
-    /// - Parameter encoder: The encoder to write data to.
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        try container.encode(gateway, forKey: .gateway)
-        try container.encodeIfPresent(publishableKey, forKey: .publishableKey)
-        try container.encode(requestURL, forKey: .requestURL)
-    }
-}
-
-extension OSPMTGatewayModel {
-    var gatewayEnum: OSPMTGateway? {
-        return OSPMTGateway.convert(from: self.gateway)
-    }
-}
-
-/// Model that contains all properties needed to configure a payment service.
+/// Protocol that contains all properties needed to configure a payment service.
 class OSPMTConfigurationModel: Encodable {
     // MARK: Merchant Information
     var merchantID: String?
@@ -55,9 +18,6 @@ class OSPMTConfigurationModel: Encodable {
     // MARK: Billing Information
     var billingSupportedContacts: [String]?
     
-    // MARK: Payment Service Provider Information
-    var gatewayModel: OSPMTGatewayModel?
-    
     /// Keys used to encode and decode the model.
     enum CodingKeys: String, CodingKey {
         case merchantID
@@ -68,7 +28,6 @@ class OSPMTConfigurationModel: Encodable {
         case paymentSupportedCardCountries
         case shippingSupportedContacts
         case billingSupportedContacts
-        case gatewayModel = "tokenization"
     }
     
     /// Constructor method.
@@ -81,18 +40,7 @@ class OSPMTConfigurationModel: Encodable {
     ///   - paymentSupportedCardCountries: Payment Support Card Countries configured
     ///   - shippingSupportedContacts: Shipping Supported Contacts configured
     ///   - billingSupportedContacts: Billing Supported Contacts configured
-    ///   - tokenization: Payment Service Gateway configured
-    init(
-        merchantID: String?,
-        merchantName: String?,
-        merchantCountryCode: String?,
-        paymentAllowedNetworks: [String]?,
-        paymentSupportedCapabilities: [String]?,
-        paymentSupportedCardCountries: [String]?,
-        shippingSupportedContacts: [String]?,
-        billingSupportedContacts: [String]?,
-        gatewayModel: OSPMTGatewayModel?
-    ) {
+    init(merchantID: String?, merchantName: String?, merchantCountryCode: String?, paymentAllowedNetworks: [String]?, paymentSupportedCapabilities: [String]?, paymentSupportedCardCountries: [String]?, shippingSupportedContacts: [String]?, billingSupportedContacts: [String]?) {
         self.merchantID = merchantID
         self.merchantName = merchantName
         self.merchantCountryCode = merchantCountryCode
@@ -101,7 +49,6 @@ class OSPMTConfigurationModel: Encodable {
         self.paymentSupportedCardCountries = paymentSupportedCardCountries
         self.shippingSupportedContacts = shippingSupportedContacts
         self.billingSupportedContacts = billingSupportedContacts
-        self.gatewayModel = gatewayModel
     }
     
     /// Encodes this value into the given encoder.
@@ -131,9 +78,6 @@ class OSPMTConfigurationModel: Encodable {
         
         // MARK: Billing Information
         try container.encodeIfPresent(billingSupportedContacts, forKey: .billingSupportedContacts)
-        
-        // MARK: Payment Service Provider Information
-        try container.encodeIfPresent(gatewayModel, forKey: .gatewayModel)
     }
 }
 
@@ -153,11 +97,6 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
         static let shippingSupportedContacts = "ApplePayShippingSupportedContacts"
         
         static let billingSupportedContacts = "ApplePayBillingSupportedContacts"
-        
-        static let paymentGateway = "ApplePayPaymentGateway"
-        static let paymentGatewayName = "ApplePayPaymentGatewayName"
-        static let paymentRequestURL = "ApplePayRequestURL"
-        static let stripePublishableKey = "ApplePayStripePublishableKey"
     }
     
     /// Constructor method.
@@ -181,15 +120,6 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
         // MARK: Billing Information
         let billingSupportedContacts: [String]? = Self.getProperty(forSource: source, andKey: ConfigurationKeys.billingSupportedContacts)
         
-        // MARK: Payment Service Provider Information
-        var gatewayModel: OSPMTGatewayModel?
-        if let providerGateway: [String: Any] = Self.getProperty(forSource: source, andKey: ConfigurationKeys.paymentGateway),
-            let providerGatewayName = providerGateway[ConfigurationKeys.paymentGatewayName] as? String,
-            let requestURL = providerGateway[ConfigurationKeys.paymentRequestURL] as? String {
-            let publishableKey = providerGateway[ConfigurationKeys.stripePublishableKey] as? String
-            gatewayModel = OSPMTGatewayModel(gateway: providerGatewayName, publishableKey: publishableKey, requestURL: requestURL)
-        }
-        
         self.init(
             merchantID: merchantID,
             merchantName: merchantName,
@@ -198,8 +128,7 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
             paymentSupportedCapabilities: paymentSupportedCapabilities,
             paymentSupportedCardCountries: paymentSupportedCardCountries,
             shippingSupportedContacts: shippingSupportedContacts,
-            billingSupportedContacts: billingSupportedContacts,
-            gatewayModel: gatewayModel
+            billingSupportedContacts: billingSupportedContacts
         )
     }
 }
