@@ -1,3 +1,5 @@
+import Foundation
+
 /// Class resopnsible to manage the Apple Pay payment service requests. It delegates every operation type to its manager.
 class OSPMTApplePayHandler: NSObject {
     let configuration: OSPMTConfigurationModel
