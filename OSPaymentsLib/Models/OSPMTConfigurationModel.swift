@@ -181,15 +181,6 @@ class OSPMTApplePayConfiguration: OSPMTConfigurationModel {
         // MARK: Billing Information
         let billingSupportedContacts: [String]? = Self.getProperty(forSource: source, andKey: ConfigurationKeys.billingSupportedContacts)
         
-        // MARK: Payment Service Provider Information
-        var gatewayModel: OSPMTGatewayModel?
-        if let providerGateway: [String: Any] = Self.getProperty(forSource: source, andKey: ConfigurationKeys.paymentGateway),
-            let providerGatewayName = providerGateway[ConfigurationKeys.paymentGatewayName] as? String,
-            let requestURL = providerGateway[ConfigurationKeys.paymentRequestURL] as? String {
-            let publishableKey = providerGateway[ConfigurationKeys.stripePublishableKey] as? String
-            gatewayModel = OSPMTGatewayModel(gateway: providerGatewayName, publishableKey: publishableKey, requestURL: requestURL)
-        }
-        
         self.init(
             merchantID: merchantID,
             merchantName: merchantName,
