@@ -11,6 +11,10 @@ public enum OSPMTError: Int, CustomNSError, LocalizedError {
     case paymentTriggerPresentationFailed = 10
     case paymentCancelled = 11
     
+    case gatewaySetFailed = 12
+    case stripePaymentMethodCreation = 13
+    case paymentIssue = 14
+    
     /// Textual description
     public var errorDescription: String? {
         switch self {
@@ -30,6 +34,13 @@ public enum OSPMTError: Int, CustomNSError, LocalizedError {
             return "Couldn't present the Apple Pay screen."
         case .paymentCancelled:
             return "Payment was cancelled by the user."
+            
+        case .gatewaySetFailed:
+            return "Couldn't set payment service provider."
+        case .stripePaymentMethodCreation:
+            return "Couldn't obtain the PaymentMethod from Stripe."
+        case .paymentIssue:
+            return "Couldn't process payment."
         }
     }
 }

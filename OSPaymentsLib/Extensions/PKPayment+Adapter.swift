@@ -2,23 +2,24 @@ import PassKit
 
 extension PKPayment {
     /// Converts a `PKPayment` object into a `OSPMTScopeModel` one. Returns `nil` if it can't.
+    /// - Parameter paymentGatewayModel: model that contains the payment gateway information resulting from completing a payment process.
     /// - Returns: The corresponding `OSPMTScopeModel` object. Can also return `nil` if the conversion fails.
-    func createScopeModel() -> OSPMTScopeModel? {
-        var result: [String: Any] = [OSPMTScopeModel.CodingKeys.paymentData.rawValue: self.createTokenDataData()]
+    func createScopeModel(for paymentGatewayModel: OSPMTServiceProviderInfoModel? = nil) -> OSPMTScopeModel? {
+        var result: [String: Any] = [OSPMTScopeModel.CodingKeys.paymentData.rawValue: self.createTokenDataData(for: paymentGatewayModel)]
         if let shippingContact = self.shippingContact {
             result[OSPMTScopeModel.CodingKeys.shippingInfo.rawValue] = self.createContactInfoData(for: shippingContact)
         }
         
-        guard
-            let scopeData = try? JSONSerialization.data(withJSONObject: result),
+        guard let scopeData = try? JSONSerialization.data(withJSONObject: result),
             let scopeModel = try? JSONDecoder().decode(OSPMTScopeModel.self, from: scopeData)
         else { return nil }
         return scopeModel
     }
     
     /// Converts a `PKPayment` object into a dictionary that relates to an `OSPMTDataModel` object.
+    /// - Parameter paymentGatewayModel: model that contains the payment gateway information resulting from completing a payment process.
     /// - Returns: The corresponding `OSPMTDataModel` dictionary object.
-    private func createTokenDataData() -> [String: Any] {
+    private func createTokenDataData(for paymentGatewayModel: OSPMTServiceProviderInfoModel?) -> [String: Any] {
         var result: [String: Any] = [
             OSPMTDataModel.CodingKeys.tokenData.rawValue: self.createTokenData(for: self.token.paymentData)
         ]
@@ -32,6 +33,11 @@ extension PKPayment {
                 result[OSPMTDataModel.CodingKeys.cardNetwork.rawValue] = cardNetwork
             }
         }
+        if let paymentGatewayModel = paymentGatewayModel,
+            let paymentGatewayData = try? JSONEncoder().encode(paymentGatewayModel),
+            let paymentGatewayDict = try? JSONSerialization.jsonObject(with: paymentGatewayData) as? [String: String] {
+            result[OSPMTDataModel.CodingKeys.paymentServiceProviderData.rawValue] = paymentGatewayDict
+        }
         
         return result
     }
@@ -40,7 +46,6 @@ extension PKPayment {
     /// - Parameter paymentData: `Data` type object that contains information related to a payment token.
     /// - Returns: The corresponding `OSPMTTokenInfoModel` dictionary object.
     private func createTokenData(for paymentData: Data) -> [String: String] {
-        // TODO: The type passed here will probably be changed into the Payment Service Provider's name when this is implemented.
         var result = [OSPMTTokenInfoModel.CodingKeys.type.rawValue: "Apple Pay"]
         
         if let token = String(data: paymentData, encoding: .utf8) {
