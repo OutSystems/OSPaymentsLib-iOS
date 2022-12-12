@@ -14,6 +14,7 @@ public enum OSPMTError: Int, CustomNSError, LocalizedError {
     case gatewaySetFailed = 12
     case stripePaymentMethodCreation = 13
     case paymentIssue = 14
+    case gatewayNotConfigured = 15
     
     /// Textual description
     public var errorDescription: String? {
@@ -41,6 +42,8 @@ public enum OSPMTError: Int, CustomNSError, LocalizedError {
             return "Couldn't obtain the PaymentMethod from Stripe."
         case .paymentIssue:
             return "Couldn't process payment."
+        case .gatewayNotConfigured:
+            return "Couldn't trigger the payment because the requested payment service provider is not configured."
         }
     }
 }
