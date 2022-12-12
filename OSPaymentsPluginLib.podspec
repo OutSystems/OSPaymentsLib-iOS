@@ -19,4 +19,5 @@ Pod::Spec.new do |s|
   s.swift_versions = '5.0'
 
   s.source_files = 'OSPaymentsLib/**/*.swift'
+  s.dependency 'StripePayments', '23.2.0'
 end
