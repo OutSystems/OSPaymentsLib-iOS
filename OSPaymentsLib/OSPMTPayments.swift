@@ -47,13 +47,15 @@ extension OSPMTPayments: OSPMTActionDelegate {
         }
     }
     
-    /// Sets payment details and triggers the request proccess.
-    /// - Parameter details: Payment details model serialized into a text field.
-    public func set(_ details: String) {
+    /// Sets payment details and triggers the request process.
+    /// - Parameters:
+    ///   - details: Payment details model serialized into a text field.
+    ///   - accessToken: Authorisation token related with a full payment type.
+    public func set(_ details: String, and accessToken: String?) {
         let detailsResult = self.decode(details)
         switch detailsResult {
         case .success(let detailsModel):
-            self.handler.set(detailsModel) { [weak self] result in
+            self.handler.set(detailsModel, and: accessToken) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let scopeModel):

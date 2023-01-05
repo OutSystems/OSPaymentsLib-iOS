@@ -25,8 +25,19 @@ protocol OSPMTRequestDelegate: AnyObject {
     /// Sets Payment details and triggers its processing.
     /// - Parameters:
     ///   - detailsModel: payment details information.
+    ///   - accessToken: Authorisation token related with a full payment type.
     ///   - completion: an async closure that can return a successful Payment Scope Model or an error otherwise.
-    func trigger(with detailsModel: OSPMTDetailsModel, _ completion: @escaping OSPMTCompletionHandler)
+    func trigger(with detailsModel: OSPMTDetailsModel, and accessToken: String?, _ completion: @escaping OSPMTCompletionHandler)
+}
+
+extension OSPMTRequestDelegate {
+    /// Sets Payment details and triggers its processing. It uses the default method without the `accessToken` parameter.
+    /// - Parameters:
+    ///   - detailsModel: payment details information.
+    ///   - completion: an async closure that can return a successful Payment Scope Model or an error otherwise.
+    func trigger(with detailsModel: OSPMTDetailsModel, _ completion: @escaping OSPMTCompletionHandler) {
+        self.trigger(with: detailsModel, and: nil, completion)
+    }
 }
 
 /// Class that implements the `OSPMTRequestDelegate` for Apple Pay, providing it the required that details to work.
@@ -37,6 +48,7 @@ class OSPMTApplePayRequestBehaviour: NSObject, OSPMTRequestDelegate {
     var paymentStatus: PKPaymentAuthorizationStatus = .failure
     var paymentScope: OSPMTScopeModel?
     var paymentDetails: OSPMTDetailsModel?
+    var accessToken: String?
     var completionHandler: OSPMTCompletionHandler!
     
     /// Constructor method.
@@ -48,8 +60,14 @@ class OSPMTApplePayRequestBehaviour: NSObject, OSPMTRequestDelegate {
         self.requestTriggerType = requestTriggerType
     }
     
-    func trigger(with detailsModel: OSPMTDetailsModel, _ completion: @escaping OSPMTCompletionHandler) {
+    /// Sets Payment details and triggers its processing.
+    /// - Parameters:
+    ///   - detailsModel: payment details information.
+    ///   - accessToken: Authorisation token related with a full payment type.
+    ///   - completion: an async closure that can return a successful Payment Scope Model or an error otherwise.
+    func trigger(with detailsModel: OSPMTDetailsModel, and accessToken: String?, _ completion: @escaping OSPMTCompletionHandler) {
         self.paymentDetails = detailsModel
+        self.accessToken = accessToken
         self.completionHandler = completion
         
         let result = self.requestTriggerType.createRequestTriggerBehaviour(for: detailsModel, andDelegate: self)
@@ -125,18 +143,19 @@ extension OSPMTApplePayRequestBehaviour: PKPaymentAuthorizationControllerDelegat
         }
         
         if let paymentDetails = paymentDetails, paymentDetails.gateway != nil {
+            guard let accessToken = self.accessToken, !accessToken.isEmpty else {
+                return completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: [OSPMTError.tokenIssue]))
+            }
+            
             guard let paymentGateway = self.configuration.gatewayModel, paymentGateway.gatewayEnum == paymentDetails.gateway else {
-                completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: [OSPMTError.gatewayNotConfigured]))
-                return
+                return completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: [OSPMTError.gatewayNotConfigured]))
             }
             
-            guard let gatewayWrapper = OSPMTGatewayFactory.createWrapper(for: paymentGateway)
-            else {
-                completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: [OSPMTError.gatewaySetFailed]))
-                return
+            guard let gatewayWrapper = OSPMTGatewayFactory.createWrapper(for: paymentGateway) else {
+                return completion(PKPaymentAuthorizationResult(status: self.paymentStatus, errors: [OSPMTError.gatewaySetFailed]))
             }
             
-            gatewayWrapper.process(payment, with: paymentDetails) { result in
+            gatewayWrapper.process(payment, with: paymentDetails, and: accessToken) { result in
                 var errorArray = [OSPMTError]()
                 var paymentResultModel: OSPMTServiceProviderInfoModel?
                 
