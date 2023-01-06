@@ -53,8 +53,9 @@ extension OSPMTApplePayHandler: OSPMTHandlerDelegate {
     /// Sets Payment details and triggers its processing.
     /// - Parameters:
     ///   - detailsModel: payment details information.
+    ///   - accessToken: Authorisation token related with a full payment type.
     ///   - completion: an async closure that can return a successful Payment Scope Model or an error otherwise.
-    func set(_ detailsModel: OSPMTDetailsModel, completion: @escaping OSPMTCompletionHandler) {
-        self.requestBehaviour.trigger(with: detailsModel, completion)
+    func set(_ detailsModel: OSPMTDetailsModel, and accessToken: String?, _ completion: @escaping OSPMTCompletionHandler) {
+        self.requestBehaviour.trigger(with: detailsModel, and: accessToken, completion)
     }
 }

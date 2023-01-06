@@ -27,15 +27,16 @@ extension OSPMTStripeWrapper {
     /// - Parameters:
     ///   - payment: Apple Pay's payment request result.
     ///   - details: Payment details to trigger processing.
+    ///   - accessToken: Authorisation token related with a full payment type.
     ///   - completion: Payment process result. If returns the process result in case of success or an error otherwise.
-    func process(_ payment: PKPayment, with details: OSPMTDetailsModel, _ completion: @escaping (Result<OSPMTServiceProviderInfoModel, OSPMTError>) -> Void) {
+    func process(_ payment: PKPayment, with details: OSPMTDetailsModel, and accessToken: String, _ completion: @escaping (Result<OSPMTServiceProviderInfoModel, OSPMTError>) -> Void) {
         self.apiDelegate.getPaymentMethodId(from: payment) { result in
             switch result {
             case .success(let paymentMethodId):
                 let requestParametersModel = OSPMTStripeRequestParametersModel(
                     amount: details.paymentAmount.multiplying(by: 100).intValue, currency: details.currency, paymentMethodId: paymentMethodId
                 )
-                self.processURLRequest(requestParametersModel, completion)
+                self.processURLRequest(requestParametersModel, and: accessToken, completion)
             case .failure(let error):
                 completion(.failure(error))
             }
