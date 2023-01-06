@@ -35,7 +35,7 @@ class OSPMTMockHandler: OSPMTHandlerDelegate {
         return self.error
     }
     
-    func set(_ detailsModel: OSPMTDetailsModel, completion: @escaping OSPMTCompletionHandler) {
+    func set(_ detailsModel: OSPMTDetailsModel, and accessToken: String?, _ completion: @escaping OSPMTCompletionHandler) {
         if let error = self.error {
             completion(.failure(error))
         } else if let scopeModel = self.scopeModel {

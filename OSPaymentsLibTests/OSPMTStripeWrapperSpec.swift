@@ -90,7 +90,7 @@ class OSPMTStripeWrapperSpec: QuickSpec {
                 it("It should return a Stripe Payment Method Creation error") {
                     mockAPIDelegate.error = OSPMTError.stripePaymentMethodCreation
 
-                    stripeWrapper.process(mockPayment, with: mockDetailsModel) { result in
+                    stripeWrapper.process(mockPayment, with: mockDetailsModel, and: OSPMTTestConfigurations.dummyAccessToken) { result in
                         switch result {
                         case .failure(let errorResult):
                             expect(errorResult).to(equal(OSPMTError.stripePaymentMethodCreation))
@@ -116,7 +116,7 @@ class OSPMTStripeWrapperSpec: QuickSpec {
                             return (response, OSPMTTestConfigurations.dummyString.data(using: .utf8))
                         }
                         
-                        stripeWrapper.process(mockPayment, with: mockDetailsModel) { result in
+                        stripeWrapper.process(mockPayment, with: mockDetailsModel, and: OSPMTTestConfigurations.dummyAccessToken) { result in
                             switch result {
                             case .failure(let errorResult):
                                 expect(errorResult).to(equal(.paymentIssue))
@@ -139,7 +139,7 @@ class OSPMTStripeWrapperSpec: QuickSpec {
                             return (response, resultData)
                         }
                         
-                        stripeWrapper.process(mockPayment, with: mockDetailsModel) { result in
+                        stripeWrapper.process(mockPayment, with: mockDetailsModel, and: OSPMTTestConfigurations.dummyAccessToken) { result in
                             switch result {
                             case .failure(let errorResult):
                                 expect(errorResult).to(equal(.paymentIssue))
@@ -164,7 +164,7 @@ class OSPMTStripeWrapperSpec: QuickSpec {
                             return (response, resultData)
                         }
 
-                        stripeWrapper.process(mockPayment, with: mockDetailsModel) { result in
+                        stripeWrapper.process(mockPayment, with: mockDetailsModel, and: OSPMTTestConfigurations.dummyAccessToken) { result in
                             switch result {
                             case .success(let resultModel):
                                 expect(resultModel).to(equal(OSPMTTestConfigurations.validPaymentProcessResultModel))
