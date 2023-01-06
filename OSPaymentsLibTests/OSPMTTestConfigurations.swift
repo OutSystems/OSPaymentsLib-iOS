@@ -185,4 +185,6 @@ struct OSPMTTestConfigurations {
     
     static let invalidPaymentProcessResultModel = OSPMTServiceProviderInfoModel(id: Self.dummyString, status: OSPMTProcessStatus.fail.rawValue)
     static let validPaymentProcessResultModel = OSPMTServiceProviderInfoModel(id: Self.dummyString, status: OSPMTProcessStatus.success.rawValue)
+    
+    static let dummyAccessToken = "dummy"
 }
