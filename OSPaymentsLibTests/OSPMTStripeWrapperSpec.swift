@@ -56,7 +56,7 @@ class MockURLProtocol: URLProtocol {
 }
 
 class OSPMTStripeWrapperSpec: QuickSpec {
-    override class func spec() {        
+    override func spec() {
         var mockAPIDelegate: MockStripeAPIDelegate!
         var mockPayment: PKPayment!
         var mockDetailsModel: OSPMTDetailsModel!
