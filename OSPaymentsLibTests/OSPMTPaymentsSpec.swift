@@ -35,7 +35,7 @@ class OSPMTMockHandler: OSPMTHandlerDelegate {
         return self.error
     }
     
-    func set(_ detailsModel: OSPMTDetailsModel, completion: @escaping OSPMTCompletionHandler) {
+    func set(_ detailsModel: OSPMTDetailsModel, and accessToken: String?, _ completion: @escaping OSPMTCompletionHandler) {
         if let error = self.error {
             completion(.failure(error))
         } else if let scopeModel = self.scopeModel {
@@ -189,15 +189,37 @@ class OSPMTPaymentsSpec: QuickSpec {
             
             describe("and an Apple Pay Handler correctly configured") {
                 context("When the OSPMTPayments object is initialized") {
-                    beforeEach {
-                        payments = OSPMTPayments(applePayWithDelegate: mockDelegate, andConfiguration: OSPMTTestConfigurations.fullConfig)
-                    }
-                    
                     it("Setup configuration should return a non empty text message") {
+                        payments = OSPMTPayments(applePayWithDelegate: mockDelegate, andConfiguration: OSPMTTestConfigurations.fullConfig)
+                        
                         payments.setupConfiguration()
                         
                         expect(mockDelegate.successText).toNot(beEmpty())
                         expect(mockDelegate.error).to(beNil())
+                    }
+                    
+                    context("And Payment Gateway information is provided") {
+                        it("Setup configuration should return a non empty text message") {
+                            payments = OSPMTPayments(applePayWithDelegate: mockDelegate, andConfiguration: OSPMTTestConfigurations.dummyGatewayConfig)
+                            
+                            payments.setupConfiguration()
+                            
+                            expect(mockDelegate.successText).toNot(beEmpty())
+                            expect(mockDelegate.error).to(beNil())
+                        }
+                    }
+                    
+                    context("And a Stripe Payment Gateway information is provided") {
+                        it("Setup configuration should return a non empty text message") {
+                            payments = OSPMTPayments(
+                                applePayWithDelegate: mockDelegate, andConfiguration: OSPMTTestConfigurations.stripeGatewayConfig
+                            )
+                            
+                            payments.setupConfiguration()
+                            
+                            expect(mockDelegate.successText).toNot(beEmpty())
+                            expect(mockDelegate.error).to(beNil())
+                        }
                     }
                 }
             }

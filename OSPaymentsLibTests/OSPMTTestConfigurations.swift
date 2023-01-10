@@ -57,6 +57,39 @@ struct OSPMTTestConfigurations {
     
     static let nilNetworkCapabilityConfig: OSPMTConfiguration = [:]
     
+    static let dummyGatewayConfig: OSPMTConfiguration = [
+        OSPMTApplePayConfiguration.ConfigurationKeys.merchantID: Self.dummyString,
+        OSPMTApplePayConfiguration.ConfigurationKeys.merchantName: Self.dummyString,
+        OSPMTApplePayConfiguration.ConfigurationKeys.merchantCountryCode: Self.dummyString,
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentGateway: [
+            OSPMTApplePayConfiguration.ConfigurationKeys.paymentGatewayName: Self.dummyString,
+            OSPMTApplePayConfiguration.ConfigurationKeys.paymentRequestURL: Self.dummyString
+        ],
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentRequestURL: Self.dummyString
+    ]
+    
+    static let stripeGatewayConfig: OSPMTConfiguration = [
+        OSPMTApplePayConfiguration.ConfigurationKeys.merchantID: Self.dummyString,
+        OSPMTApplePayConfiguration.ConfigurationKeys.merchantName: Self.dummyString,
+        OSPMTApplePayConfiguration.ConfigurationKeys.merchantCountryCode: Self.dummyString,
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentAllowedNetworks: [Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCapabilities: [Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentSupportedCardCountries: [Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.shippingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.billingSupportedContacts: [Self.dummyString, Self.dummyString],
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentGateway: [
+            OSPMTApplePayConfiguration.ConfigurationKeys.paymentGatewayName: OSPMTGateway.stripe.rawValue,
+            OSPMTApplePayConfiguration.ConfigurationKeys.paymentRequestURL: Self.dummyString,
+            OSPMTApplePayConfiguration.ConfigurationKeys.stripePublishableKey: Self.dummyString
+        ],
+        OSPMTApplePayConfiguration.ConfigurationKeys.paymentRequestURL: Self.dummyString
+    ]
+    
     // MARK: - OSPMTApplePayRequestBehaviourSpec Configurations
     static let dummyContact = OSPMTContact(isCustom: true, contactArray: [Self.dummyString])
     static let dummyDetailsModel = OSPMTDetailsModel(
@@ -137,4 +170,21 @@ struct OSPMTTestConfigurations {
         guard let data = try? JSONEncoder().encode(model), let result = String(data: data, encoding: .utf8) else { return nil }
         return result
     }
+    
+    // MARK: - OSPMTGatewayFactorySpec Configurations
+    
+    static let validStripeModel = OSPMTGatewayModel(
+        gateway: OSPMTGateway.stripe.rawValue, publishableKey: Self.dummyString, requestURL: Self.dummyString
+    )
+    static let invalidStripeModel = OSPMTGatewayModel(
+        gateway: OSPMTGateway.stripe.rawValue, publishableKey: nil, requestURL: Self.dummyString
+    )
+    static let invalidGatewayModel = OSPMTGatewayModel(
+        gateway: Self.dummyString, publishableKey: Self.dummyString, requestURL: Self.dummyString
+    )
+    
+    static let invalidPaymentProcessResultModel = OSPMTServiceProviderInfoModel(id: Self.dummyString, status: OSPMTProcessStatus.fail.rawValue)
+    static let validPaymentProcessResultModel = OSPMTServiceProviderInfoModel(id: Self.dummyString, status: OSPMTProcessStatus.success.rawValue)
+    
+    static let dummyAccessToken = "dummy"
 }
