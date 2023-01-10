@@ -4,6 +4,7 @@ target 'OSPaymentsLib' do
   use_frameworks!
 
   # Pods for OSPaymentsLib
+  pod 'StripePayments', '23.2.0'
 
   target 'OSPaymentsLibTests' do
     pod 'Quick', '5.0.1'
