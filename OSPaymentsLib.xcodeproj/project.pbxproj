@@ -28,7 +28,6 @@
 		755A8060289BD54E00426EAA /* OSPMTDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755A805F289BD54E00426EAA /* OSPMTDataModel.swift */; };
 		755A8062289BD56300426EAA /* OSPMTAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755A8061289BD56300426EAA /* OSPMTAddressModel.swift */; };
 		755A8064289BD58900426EAA /* OSPMTContactInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755A8063289BD58900426EAA /* OSPMTContactInfoModel.swift */; };
-		755DF3F0297FF02800140860 /* StripePayments in Frameworks */ = {isa = PBXBuildFile; productRef = 755DF3EF297FF02800140860 /* StripePayments */; };
 		756931E62937A9200014618D /* OSPMTTokenInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756931E52937A9200014618D /* OSPMTTokenInfoModel.swift */; };
 		75760F78289C102D001BDCEC /* OSPMTAddressModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75760F77289C102D001BDCEC /* OSPMTAddressModelSpec.swift */; };
 		75760F7A289C17AB001BDCEC /* OSPMTContactInfoModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75760F79289C17AB001BDCEC /* OSPMTContactInfoModelSpec.swift */; };
@@ -123,7 +122,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				755DF3F0297FF02800140860 /* StripePayments in Frameworks */,
 				8DB1869BE6C7A0D7D44D4C34 /* Pods_OSPaymentsLib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,9 +319,6 @@
 			dependencies = (
 			);
 			name = OSPaymentsLib;
-			packageProductDependencies = (
-				755DF3EF297FF02800140860 /* StripePayments */,
-			);
 			productName = OSPaymentsLib;
 			productReference = 7507FC1227FC2AAE003809F6 /* OSPaymentsLib.framework */;
 			productType = "com.apple.product-type.framework";
@@ -376,9 +371,6 @@
 				Base,
 			);
 			mainGroup = 7507FC0827FC2AAE003809F6;
-			packageReferences = (
-				755DF3EE297FF02800140860 /* XCRemoteSwiftPackageReference "stripe-ios-spm" */,
-			);
 			productRefGroup = 7507FC1327FC2AAE003809F6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -806,25 +798,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		755DF3EE297FF02800140860 /* XCRemoteSwiftPackageReference "stripe-ios-spm" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stripe/stripe-ios-spm";
-			requirement = {
-				kind = exactVersion;
-				version = 23.2.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		755DF3EF297FF02800140860 /* StripePayments */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 755DF3EE297FF02800140860 /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
-			productName = StripePayments;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7507FC0927FC2AAE003809F6 /* Project object */;
 }
