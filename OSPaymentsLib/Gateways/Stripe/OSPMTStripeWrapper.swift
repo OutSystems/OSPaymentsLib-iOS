@@ -1,5 +1,5 @@
 import PassKit
-import StripeCore
+@_implementationOnly import StripeCore
 
 /// Object responsible for making a Stripe payment process. The Wrapper deals with all calls that are required to Stripe's SDK.
 final class OSPMTStripeWrapper: OSPMTGatewayDelegate {
