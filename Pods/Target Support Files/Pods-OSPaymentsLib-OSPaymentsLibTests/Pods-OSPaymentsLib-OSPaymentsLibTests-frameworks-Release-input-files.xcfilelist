@@ -1,5 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-OSPaymentsLib-OSPaymentsLibTests/Pods-OSPaymentsLib-OSPaymentsLibTests-frameworks.sh
-${BUILT_PRODUCTS_DIR}/StripeCore/StripeCore.framework
-${BUILT_PRODUCTS_DIR}/StripePayments/StripePayments.framework
 ${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework
 ${BUILT_PRODUCTS_DIR}/Quick/Quick.framework

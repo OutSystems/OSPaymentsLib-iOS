@@ -1,5 +1,5 @@
 import PassKit
-import StripePayments
+@_implementationOnly import StripePayments
 
 /// Delegate class containing the required calls for Stripe's SDK to process.
 protocol OSPMTStripeAPIDelegate: AnyObject {
