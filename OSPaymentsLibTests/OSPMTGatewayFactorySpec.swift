@@ -3,7 +3,7 @@ import Quick
 @testable import OSPaymentsLib
 
 class OSPMTGatewayFactorySpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var model: OSPMTGatewayModel!
         var wrapper: OSPMTGatewayDelegate!
         
