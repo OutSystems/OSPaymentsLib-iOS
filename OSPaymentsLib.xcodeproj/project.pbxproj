@@ -13,6 +13,7 @@
 		7509DC7F28996482005BA0D4 /* OSPMTApplePayConfigurationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7509DC7E28996482005BA0D4 /* OSPMTApplePayConfigurationSpec.swift */; };
 		7509DC81289967A6005BA0D4 /* PKPaymentNetwork+Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7509DC80289967A6005BA0D4 /* PKPaymentNetwork+Adapter.swift */; };
 		751B1DB2293A2744009A00B2 /* OSPMTStripeRequestParametersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751B1DB1293A2744009A00B2 /* OSPMTStripeRequestParametersModel.swift */; };
+		753CDB1C2BC55BEE005EAA76 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 753CDB1B2BC55BEE005EAA76 /* PrivacyInfo.xcprivacy */; };
 		7556EA952934DAC600FF4044 /* OSPMTRequestParametersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7556EA942934DAC600FF4044 /* OSPMTRequestParametersModel.swift */; };
 		7556EA982934E10D00FF4044 /* OSPMTStripeAPIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7556EA972934E10D00FF4044 /* OSPMTStripeAPIDelegate.swift */; };
 		7556EA9A2934E4AB00FF4044 /* OSPMTStripeWrapperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7556EA992934E4AB00FF4044 /* OSPMTStripeWrapperSpec.swift */; };
@@ -76,6 +77,7 @@
 		7509DC7E28996482005BA0D4 /* OSPMTApplePayConfigurationSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTApplePayConfigurationSpec.swift; sourceTree = "<group>"; };
 		7509DC80289967A6005BA0D4 /* PKPaymentNetwork+Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKPaymentNetwork+Adapter.swift"; sourceTree = "<group>"; };
 		751B1DB1293A2744009A00B2 /* OSPMTStripeRequestParametersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTStripeRequestParametersModel.swift; sourceTree = "<group>"; };
+		753CDB1B2BC55BEE005EAA76 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		7556EA942934DAC600FF4044 /* OSPMTRequestParametersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTRequestParametersModel.swift; sourceTree = "<group>"; };
 		7556EA972934E10D00FF4044 /* OSPMTStripeAPIDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTStripeAPIDelegate.swift; sourceTree = "<group>"; };
 		7556EA992934E4AB00FF4044 /* OSPMTStripeWrapperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPMTStripeWrapperSpec.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				75EC4D132894142000CF50E2 /* Protocols */,
 				75EC4D1D289416B600CF50E2 /* OSPMTApplePayHandler.swift */,
 				75EC4D112893FC3C00CF50E2 /* OSPMTPayments.swift */,
+				753CDB1B2BC55BEE005EAA76 /* PrivacyInfo.xcprivacy */,
 			);
 			path = OSPaymentsLib;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				753CDB1C2BC55BEE005EAA76 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
