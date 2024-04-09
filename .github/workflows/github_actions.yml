@@ -10,7 +10,7 @@ on:
 jobs:    
   test:
     name: Unit-Tests
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -29,6 +29,9 @@ jobs:
 
     - name: Install Cocoapods
       run: bundle exec pod install
+
+    - name: Link SwiftLint or install it
+      run: brew link --overwrite swiftlint || brew install swiftlint || brew link --overwrite swiftlint
 
     - name: Unit tests
       run: bundle exec fastlane unit_tests
