@@ -110,8 +110,6 @@ extension OSPMTApplePayRequestBehaviour {
 
 // MARK: - Set up PKPaymentAuthorizationControllerDelegate conformance
 extension OSPMTApplePayRequestBehaviour: PKPaymentAuthorizationControllerDelegate {
-    /// Tells the delegate that payment authorization finished.
-    /// - Parameter controller: The payment authorization view controller.
     func paymentAuthorizationControllerDidFinish(_ controller: PKPaymentAuthorizationController) {
         controller.dismiss()
         // The payment sheet doesn't automatically dismiss once it has finished. Dismiss the payment sheet.
@@ -124,11 +122,6 @@ extension OSPMTApplePayRequestBehaviour: PKPaymentAuthorizationControllerDelegat
         }
     }
     
-    /// Tells the delegate that the user authorized the payment request, and asks for a result.
-    /// - Parameters:
-    ///   - controller: The payment authorization view controller.
-    ///   - payment: The authorized payment. This object contains the payment token you need to submit to your payment processor, as well as the billing and shipping information required by the payment request.
-    ///   - completion: The completion handler to call with the result of authorizing the payment.
     func paymentAuthorizationController(_ controller: PKPaymentAuthorizationController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         func setPaymentResults(with errorArray: [OSPMTError], and scopeModel: OSPMTScopeModel?, _ completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
             if errorArray.isEmpty, let scopeModel = scopeModel {
@@ -172,4 +165,10 @@ extension OSPMTApplePayRequestBehaviour: PKPaymentAuthorizationControllerDelegat
             setPaymentResults(with: [], and: payment.createScopeModel(), completion)
         }
     }
+    
+    /**
+     Despite the need to implement the method, this is not required by app's functionality.
+     For that reason, we're returning `nil` as the presentation window.
+     */
+    func presentationWindow(for controller: PKPaymentAuthorizationController) -> UIWindow? { nil }
 }

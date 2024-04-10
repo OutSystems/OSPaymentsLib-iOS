@@ -45,7 +45,7 @@ class OSPMTMockHandler: OSPMTHandlerDelegate {
 }
 
 class OSPMTPaymentsSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var mockDelegate: OSPMTMockCallback!
         var mockHandler: OSPMTMockHandler!
         var payments: OSPMTPayments!
@@ -86,8 +86,12 @@ class OSPMTPaymentsSpec: QuickSpec {
                             expect(mockDelegate.error).to(beNil())
                             
                             let result = payments.encode(OSPMTTestConfigurations.dummyScopeModel)
-                            if case let .success(scopeText) = result {
-                                expect(mockDelegate.successText).to(equal(scopeText))
+                            if case let .success(scopeText) = result,
+                               let scopeTextData = scopeText.data(using: .utf8),
+                               let successTextData = mockDelegate.successText?.data(using: .utf8),
+                               let scopeObject = try? JSONSerialization.jsonObject(with: scopeTextData) as? [String: Any],
+                               let successTextObject = try? JSONSerialization.jsonObject(with: successTextData) as? [String: Any] {
+                                expect(NSDictionary(dictionary: scopeObject)).to(equal(NSDictionary(dictionary: successTextObject)))
                             } else {
                                 fail()
                             }
@@ -118,9 +122,14 @@ class OSPMTPaymentsSpec: QuickSpec {
                                 payments.set(detailsString)
                                 
                                 expect(mockDelegate.error).to(beNil())
+                                
                                 let result = payments.encode(OSPMTTestConfigurations.useConfigurationBillingScopeModel)
-                                if case let .success(scopeText) = result {
-                                    expect(mockDelegate.successText).to(equal(scopeText))
+                                if case let .success(scopeText) = result,
+                                   let scopeTextData = scopeText.data(using: .utf8),
+                                   let successTextData = mockDelegate.successText?.data(using: .utf8),
+                                   let scopeObject = try? JSONSerialization.jsonObject(with: scopeTextData) as? [String: Any],
+                                   let successTextObject = try? JSONSerialization.jsonObject(with: successTextData) as? [String: Any] {
+                                    expect(NSDictionary(dictionary: scopeObject)).to(equal(NSDictionary(dictionary: successTextObject)))
                                 } else {
                                     fail()
                                 }

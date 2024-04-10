@@ -15,7 +15,7 @@ class OSPMTTokenInfoModelSpec: QuickSpec {
         static let fullModel = OSPMTTokenInfoModel(token: OSPMTTestConfigurations.dummyString, type: OSPMTTestConfigurations.dummyString)
     }
     
-    override func spec() {
+    override class func spec() {
         describe("Given a full configuration") {
             context("When decoding the Token Info Model") {
                 it("Should return a filled object") {
