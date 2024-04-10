@@ -4,7 +4,7 @@ import Quick
 @testable import OSPaymentsLib
 
 class OSPMTApplePayConfigurationSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var applePayConfiguration: OSPMTApplePayConfiguration!
         
         describe("Given a correct configuration") {
