@@ -1,4 +1,4 @@
-platform :ios, '13.0'
+platform :ios, '14.0'
 
 target 'OSPaymentsLib' do
   use_frameworks!
@@ -6,8 +6,8 @@ target 'OSPaymentsLib' do
   # Pods for OSPaymentsLib
 
   target 'OSPaymentsLibTests' do
-    pod 'Quick', '5.0.1'
-    pod 'Nimble', '10.0.0'
+    pod 'Quick', '7.5.0'
+    pod 'Nimble', '13.2.1'
   end
 
 end
