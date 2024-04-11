@@ -41,7 +41,7 @@ class OSPMTMockRequestBehaviour: OSPMTRequestDelegate {
 }
 
 class OSPMTApplePayHandlerSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var applePayHandler: OSPMTApplePayHandler!
         var mockAvailabilityBehaviour: OSPMTMockAvailabilityBehaviour!
         var mockRequestBehaviour: OSPMTMockRequestBehaviour!
