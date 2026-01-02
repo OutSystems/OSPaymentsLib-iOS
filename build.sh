@@ -1,6 +1,6 @@
 rm -rf build
 
-sudo xcode-select --switch /Applications/Xcode_15.1.app
+sudo xcode-select --switch /Applications/Xcode_26.0.app
 
 xcodebuild archive \
 -workspace OSPaymentsLib.xcworkspace \
