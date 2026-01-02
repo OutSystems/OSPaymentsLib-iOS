@@ -7,7 +7,7 @@ The `OSPMTActionDelegate` protocol, along with the class that implements it - `O
 - Check if Device is Ready for Payment
 - Set Details and Trigger Payment
 
-Each is detailed on following sections.
+Each is detailed on following sections. TEST
 
 ## Index
 
